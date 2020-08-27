@@ -1,0 +1,509 @@
+openapi: 3.0.0
+info:
+  title: Vervoe API
+  version: '1.8'
+  contact:
+    name: 'Alex Handley — Product Manager, alex+api@vervoe.com'
+    email: alex+api@vervoe.com
+  termsOfService: 'https://vervoe.com/terms-of-use/'
+  description: Technical specifications for Vervoe's API
+servers:
+  - url: 'https://api.vervoe.com/api'
+paths:
+  /integration/assessments:
+    get:
+      summary: Get list of assessments
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    description: Count of private assessments for currentPage.
+                  total:
+                    type: number
+                    description: 'Total count of private assessments. '
+                  hasMorePages:
+                    type: boolean
+                    description: If current page is last page from result outputs false else true.
+                  currentPage:
+                    type: number
+                    description: Current page offset. Must be > 0.
+                  items:
+                    type: array
+                    description: 'Array of private assessments. '
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: The assessment name.
+                        description:
+                          type: string
+                          description: The assessment description.
+                        slug:
+                          type: string
+                          description: Unique identifier for the assessment.
+                        questionsCount:
+                          type: number
+                          description: Count of the number of questions in the assessment excluding the optional final feedback for employer question.
+                      required:
+                        - name
+                        - description
+                        - slug
+                        - questionsCount
+                required:
+                  - count
+                  - total
+                  - hasMorePages
+                  - currentPage
+                  - items
+              examples:
+                example-1:
+                  value:
+                    count: 8
+                    total: 8
+                    hasMorePages: false
+                    currentPage: 1
+                    items:
+                      - name: Backend developer test
+                        description: Testing php backend developers
+                        slug: ca9a4a83-3a17-4709-a1d8-1349497af98d
+                        questionCount: 3
+                      - name: Frontend developer test
+                        description: Testing Frontend developers
+                        slug: 4921236e-c439-45b3-95f1-19d7b36b80ce
+                        questionCount: 3
+      operationId: get-assessments
+      description: 'A paginated list of private assessments available for the current integration user (customer or partner). '
+    parameters: []
+  '/integration/assessments/{slug}/invite':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+        description: Assessment slug to which the candidate is invited.
+    post:
+      summary: Invite candidate to complete assessment
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: The candidate’s assessment ID. Can be used for obtaining a report for completed assessment.
+                      candidateUrl:
+                        type: string
+                        description: The url by which candidate can complete the assessment.
+                required:
+                  - success
+                  - data
+              examples:
+                '200':
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                      candidateUrl: 'http://example.com/login?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJmdWxsTmFtZSI6IkZpcnN0TkFNRSBMYXN0bmFtZSIsImVtYWlsIjoidml0YWxpeSs2MDAxMEB2ZXJ2b2UuY29tIiwiaWF0IjoxNTc4OTExMDQ5LCJleHAiOjE1NzkyNTY2NDksImlzRGVtbyI6ZmFsc2UsIm9wcG9ydHVuaXR5U2x1ZyI6ZmFsc2V9.YgEZ3YIzUvD9l4gS9b6DO1oWvIPiozoUL7dZlFJtE4Y8aRwk4dMU9yHOKYhtIbUS572u61xzKMaRwsVPe_N0JV4z5aM1ISvqbW9RH-S1WehhsOdauKBw_qwESHV7CVA-Kh8ondZPAqkM-uxKbwiQFMAwaKB4IgwJ_gnL9k5i7I0&hashCode=d05e35bf-54d9-4ec6-9d13-c73b20e8ef181578911049'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errors:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                      candidateUrl:
+                        type: string
+                required:
+                  - success
+                  - errors
+                  - data
+              examples:
+                400 Bad request - candidate already invited:
+                  value:
+                    success: false
+                    errors: The invitation has been already sent.
+                    data:
+                      candidateAssessmentUuid: <uuid>
+                      candidateUrl: <URL to the assessment>
+      operationId: post-assessments-slug-invite
+      description: Invites the candidate to complete the assessment by assessment slug.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                candidateEmail:
+                  type: string
+                  description: The candidate’s email address.
+                candidateFirstName:
+                  type: string
+                  description: Candidate’s first name.
+                candidateLastName:
+                  type: string
+                  description: The candidate’s last name.
+                sendInvitationEmail:
+                  type: boolean
+                  description: 'true by default. The text and company logo in the emails are customizable from within the Vervoe account. '
+                redirectCandidateUrl:
+                  type: string
+                  description: The url to which candidate will be redirected on successful assessment completion.
+                candidateAssessmentUuid:
+                  type: string
+                  description: The optional candidate assessment uuid can be used to obtain invitation url for already invited candidate.
+                reapply:
+                  type: boolean
+                  description: |-
+                    if candidateAssessmentUuid doesn’t exist - always create new userAudition
+
+                    if candidateAssessmentUuid exists: 
+
+                    if userAudition  “active“ = 0 - throw error 
+
+                    if userAudition  “active“ = 1 - create new userAudition
+              required:
+                - candidateEmail
+                - candidateFirstName
+                - candidateLastName
+            examples:
+              example-1:
+                value:
+                  candidateEmail: candidate@example.com
+                  candidateFirstName: Firstname
+                  candidateLastName: Lastname
+                  sendInvitationEmail: true
+                  redirectCandidateUrl: 'https://partner-website.com/candidate-landing-page'
+                  candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                  reapply: false
+  '/integration/user-assessments/{candidateAssessmentUuid}':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment ID.
+    get:
+      summary: Get candidate assessment report
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    description: ''
+                    required:
+                      - candidateAssessmentUuid
+                      - status
+                      - completedAt
+                      - score
+                      - integrationCandidateCardUrl
+                      - startedAt
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment ID. Unique identifier for the candidate assessment.
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, or expired.'
+                      completedAt:
+                        type: string
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data.
+                        required:
+                          - scoreByFormat
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                          score:
+                            type: string
+                            description: Score value.
+                          scoreByFormat:
+                            type:
+                              - string
+                              - number
+                              - object
+                              - 'null'
+                            description: Score formatted according to the predefined style. See 3.d and 3.e for examples of scoreByFormat.
+                          '':
+                            type: string
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL for accessing candidate card profile in Vervoe.
+                      startedAt:
+                        type: string
+                        description: Time the candidate started.
+                required:
+                  - success
+                  - data
+              examples:
+                example-1 Manual % Overall:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                      status: complete
+                      startedAt: '2020-03-04T12:19:12+00:00'
+                      completedAt: '2020-01-13T22:04:24+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                example-2 Manual Group Scores with Text:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                      status: complete
+                      completedAt: '2020-01-13T22:04:24+11:00'
+                      startedAt: '2020-03-04T12:19:12+00:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat:
+                          - groupName: Group 1
+                            sort: 0
+                            scoreType: 1
+                            result: '60'
+                            resultWithAdditionalText: '60'
+                            scorePercentage: 60
+                            scoreSum: 12
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+      operationId: get-user-assessments-candidateAssessmentUuid
+      description: Get the candidate’s assessment report by candidate’s assessment ID.
+  /integration/user-assessments:
+    get:
+      summary: List assessment reports
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    required:
+                      - currentPage
+                      - total
+                      - count
+                      - hasMorePages
+                      - items
+                    properties:
+                      currentPage:
+                        type: number
+                      total:
+                        type: number
+                      count:
+                        type: number
+                      hasMorePages:
+                        type: boolean
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            candidateAssessmentUuid:
+                              type: string
+                              description: Candidate assessment ID. Unique identifier for the candidate assessment.
+                            status:
+                              type: string
+                              description: 'Assessment completion status. Possible values: complete, incomplete, or expired.'
+                            completedAt:
+                              type:
+                                - string
+                                - 'null'
+                              description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
+                            score:
+                              type: object
+                              description: If assessment was completed outputs the array of available score data.
+                              required:
+                                - type
+                                - score
+                                - scoreByFormat
+                              properties:
+                                type:
+                                  type: string
+                                  description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI '
+                                score:
+                                  type: integer
+                                  description: Overall score value.
+                                scoreByFormat:
+                                  type:
+                                    - integer
+                                    - 'null'
+                                    - array
+                                    - string
+                                  items:
+                                    type: object
+                            startedAt:
+                              type: string
+                              description: Time the candidate started.
+                          required:
+                            - candidateAssessmentUuid
+                            - status
+                            - completedAt
+                            - score
+                            - startedAt
+                required:
+                  - success
+                  - data
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      currentPage: 1
+                      total: 1
+                      count: 1
+                      hasMorePages: false
+                      items:
+                        - candidateAssessmentUuid: b1acd182-0f6e-450b-a4c9-ff68ed92790d
+                          status: complete
+                          completedAt: '2020-01-16T22:39:31+11:00'
+                          startedAt: '2020-01-10T08:39:46+00:00'
+                          score:
+                            type: TYPE_MANUAL
+                            score: 60
+                            scoreByFormat:
+                              - groupName: Group 1
+                                sort: 0
+                                scoreType: 1
+                                result: '60'
+                                resultWithAdditionalText: '60'
+                                scorePercentage: 60
+                                scoreSum: 12
+                          integrationCandidateCardUrl: 'https://api.vervoe.com/integration-card/vito-222/11367?token=957465d469e2a6cf82e3b6dbc80eed7c5701df47'
+      operationId: get-user-assessments
+      description: |-
+        Get paginated assessment report list with possibility to sort and filter. Example request: 
+        https://api.vervoe.com/api/integration/user-assessments?page=1&sort=completed&order=desc&completed-gt=2020-01-16 22:31:10.0 UTC&completed-lt=2020-01-16 22:39:32.0 UTC
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Must be greater than 0.
+          required: true
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: '(optional) default: updated, One of the following: completed, created, updated.'
+        - schema:
+            type: string
+          in: query
+          name: order
+          description: 'default: asc, Sort order. One of the following: asc, desc.'
+        - schema:
+            type: string
+          in: query
+          name: completed-gt
+          description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is greater than this value.'
+        - schema:
+            type: string
+          in: query
+          name: completed-lt
+          description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is smaller than this value.'
+    parameters: []
+  '/public/apihealthcheck/{apiKey}':
+    parameters:
+      - schema:
+          type: string
+        name: apiKey
+        in: path
+        required: true
+        description: Your API key
+    get:
+      summary: Health Check monitoring on Vervoe API
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: string
+                required:
+                  - success
+                  - data
+              examples:
+                'status: 200':
+                  value:
+                    success: true
+                    data: ok
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errors:
+                    type: string
+                required:
+                  - success
+                  - errors
+              examples:
+                'status: 503 Service Unavailable':
+                  value:
+                    success: false
+                    errors: Service Unavailable
+      operationId: get-public-apihealthcheck-apiKey
+      description: Used for monitoring Vervoe API Health Status.
+components:
+  schemas: {}
