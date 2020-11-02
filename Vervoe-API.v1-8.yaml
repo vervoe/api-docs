@@ -242,7 +242,7 @@ paths:
                         description: Candidate assessment ID. Unique identifier for the candidate assessment.
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, or expired.'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, in progress, or expired.'
                       completedAt:
                         type: string
                         description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
@@ -354,7 +354,7 @@ paths:
                               description: Candidate assessment ID. Unique identifier for the candidate assessment.
                             status:
                               type: string
-                              description: 'Assessment completion status. Possible values: complete, incomplete, or expired.'
+                              description: 'Assessment completion status. Possible values: complete, incomplete, in progress, or expired.'
                             completedAt:
                               type:
                                 - string
