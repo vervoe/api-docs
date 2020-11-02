@@ -25,6 +25,8 @@ lineNumbers: true
         "status": "complete",
         "startedAt": "2020-03-10T08:39:46+00:00",
         "completedAt": "2020-03-10T08:39:58+00:00",
+        "timeTaken": "2 minutes 19 seconds",
+        "submitTime": "11 minutes 49 seconds",
         "score": {
             "type": "TYPE_MANUAL",
             "score": 100,
