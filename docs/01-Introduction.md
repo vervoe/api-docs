@@ -8,6 +8,6 @@
 
 #### Contact 
 
-**Alex Handley** — *Product Manager*  
+**Tobias Bjarnelind** — *Product Manager*  
 
-[alex@vervoe.com]("mailto:alex+api@vervoe.com")
+[tobias@vervoe.com]("mailto:tobias+api@vervoe.com")
