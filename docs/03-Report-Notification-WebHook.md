@@ -9,8 +9,10 @@ Employer user can set reporting webhook. To this webhook Assessment Report will 
 - CANDIDATE_START_INTERVIEW
 - CANDIDATE_COMPLETE_INTERVIEW
 - AI_SCORE
+- AI_SCORE_CHANGED
 - MANUAL_SCORE
 - MANUAL_SCORE_CHANGED
+- CANDIDATE_HIRED
 
 ### Request
 
@@ -23,16 +25,19 @@ lineNumbers: true
 {
         "candidateAssessmentUuid": "cbb3e136-ef30-4452-955b-1835a79caa65",
         "status": "complete",
-        "startedAt": "2020-03-10T08:39:46+00:00",
         "completedAt": "2020-03-10T08:39:58+00:00",
         "timeTaken": "2 minutes 19 seconds",
         "submitTime": "11 minutes 49 seconds",
         "score": {
             "type": "TYPE_MANUAL",
             "score": 100,
+            "startedAt": "2020-03-10T08:39:46+00:00",
+            "completedAt": "2020-03-10T08:39:58+00:00",
             "scoreByFormat": 100
         }
-        "integrationCandidateCardUrl": "https://api.vervoe.com/integration_candidate_card"
+        "integrationCandidateCardUrl": "https://api.vervoe.com/integration_candidate_card",
+        "timeTaken": "2 minutes 19 seconds",
+        "submitTime": "11 minutes 49 seconds"
 }
 ```
 
