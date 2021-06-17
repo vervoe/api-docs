@@ -505,5 +505,52 @@ paths:
                     errors: Service Unavailable
       operationId: get-public-apihealthcheck-apiKey
       description: Used for monitoring Vervoe API Health Status.
+  /integration/assessments/folders:
+    post:
+      summary: Create Assessment Folder
+      operationId: post-integration-assessments-folders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                      name:
+                        type: string
+                      auditionCount:
+                        type:
+                          - number
+                          - integer
+      description: 'You can create folders in Vervoe so that you can keep your assessments organised and easier to find. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+            examples:
+              example-1:
+                value:
+                  name: My folder
+        description: ''
 components:
   schemas: {}
