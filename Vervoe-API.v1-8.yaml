@@ -3,8 +3,8 @@ info:
   title: Vervoe API
   version: '1.8'
   contact:
-    name: 'Alex Handley — Product Manager, alex+api@vervoe.com'
-    email: alex+api@vervoe.com
+    name: 'Tobias Bjarnelind — Product Manager, tobias+api@vervoe.com'
+    email: tobias+api@vervoe.com
   termsOfService: 'https://vervoe.com/terms-of-use/'
   description: Technical specifications for Vervoe's API
 servers:
@@ -81,7 +81,7 @@ paths:
                         slug: 4921236e-c439-45b3-95f1-19d7b36b80ce
                         questionCount: 3
       operationId: get-assessments
-      description: 'A paginated list of private assessments available for the current integration user (customer or partner). '
+      description: 'Returns a paginated list of private assessments available for the current integration user (customer or partner). '
     parameters: []
   '/integration/assessments/{slug}/invite':
     parameters:

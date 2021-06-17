@@ -22,6 +22,9 @@ lineNumbers: true
 ```
 Authorization: Basic <\Base64 encoded apiKey:secretKey>
 ```
+```
+Authorization: Basic <\Base64 encoded apiKey:secretKey>
+```
 *When using the example above, be sure to remove the `\`*
 
 #### Response:
