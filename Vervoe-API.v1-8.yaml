@@ -452,6 +452,55 @@ paths:
           name: completed-lt
           description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is smaller than this value.'
     parameters: []
+  /integration/assessments/folders:
+    post:
+      summary: Create Assessment Folder
+      operationId: post-integration-assessments-folders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                      name:
+                        type: string
+                      auditionCount:
+                        type:
+                          - number
+                          - integer
+      description: 'You can create folders in Vervoe so that you can keep your assessments organised and easier to find. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+            examples:
+              example-1:
+                value:
+                  name: My folder
+        description: ''
+      tags:
+        - Endpoints
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
@@ -505,54 +554,5 @@ paths:
                     errors: Service Unavailable
       operationId: get-public-apihealthcheck-apiKey
       description: Used for monitoring Vervoe API Health Status.
-  /integration/assessments/folders:
-    post:
-      summary: Create Assessment Folder
-      operationId: post-integration-assessments-folders
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    properties:
-                      uuid:
-                        type: string
-                      name:
-                        type: string
-                      auditionCount:
-                        type:
-                          - number
-                          - integer
-      description: 'You can create folders in Vervoe so that you can keep your assessments organised and easier to find. '
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-              required:
-                - name
-            examples:
-              example-1:
-                value:
-                  name: My folder
-        description: ''
-      tags:
-        - Endpoints
 components:
   schemas: {}
