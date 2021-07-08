@@ -552,5 +552,7 @@ paths:
                 value:
                   name: My folder
         description: ''
+      tags:
+        - Endpoints
 components:
   schemas: {}
