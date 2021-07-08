@@ -13,6 +13,7 @@ Employer user can set reporting webhook. To this webhook Assessment Report will 
 - MANUAL_SCORE
 - MANUAL_SCORE_CHANGED
 - CANDIDATE_HIRED
+- CANDIDATE_REJECTED
 
 ### Request
 
