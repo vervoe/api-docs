@@ -19,7 +19,9 @@ title: "Authorization request header"
 lineNumbers: true
 -->
 
-
+```
+Authorization: Basic <\Base64 encoded apiKey:secretKey>
+```
 ```
 Authorization: Basic <\Base64 encoded apiKey:secretKey>
 ```
