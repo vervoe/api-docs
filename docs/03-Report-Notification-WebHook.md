@@ -27,13 +27,10 @@ lineNumbers: true
         "candidateAssessmentUuid": "cbb3e136-ef30-4452-955b-1835a79caa65",
         "status": "complete",
         "completedAt": "2020-03-10T08:39:58+00:00",
-        "timeTaken": "2 minutes 19 seconds",
-        "submitTime": "11 minutes 49 seconds",
+        "startedAt":"2020-03-10T08:39:46+00:00",
         "score": {
             "type": "TYPE_MANUAL",
             "score": 100,
-            "startedAt": "2020-03-10T08:39:46+00:00",
-            "completedAt": "2020-03-10T08:39:58+00:00",
             "scoreByFormat": 100
         }
         "integrationCandidateCardUrl": "https://api.vervoe.com/integration_candidate_card",
