@@ -654,6 +654,8 @@ paths:
         '200':
           description: OK
       x-internal: true
+      tags:
+        - Folders
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
