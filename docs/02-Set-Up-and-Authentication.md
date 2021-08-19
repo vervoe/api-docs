@@ -1,10 +1,13 @@
-# Set Up and Authentication
+# Using Vervoe APIs
 
-> Access to Vervoe’s API is for Enterprise customers and Partners. To learn more about the API solution or to set up your access please contact: [sales@vervoe.com](mailto:sales@vervoe.com). 
+Vervoe APIs allow developers to request and send information to and from Vervoe. 
+Access to Vervoe’s API is for Enterprise customers and Partners. To learn more about the API solution or to set up your access please contact: [sales@vervoe.com](mailto:sales@vervoe.com). 
 
 
 ## Authentication 
-ATS API uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “Authorization: Bearer <\token>”.
+Each HTTP request made to the Vervoe API must be authenticated by Verveo. 
+
+Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “Authorization: Bearer <\token>”.
 
 *When using the example above, be sure to remove the `\`*
 
