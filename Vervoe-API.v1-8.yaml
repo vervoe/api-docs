@@ -345,9 +345,7 @@ paths:
         - Candidates
   /integration/user-assessments:
     get:
-      summary: 'GET: List assessment reports'
-      tags:
-        - Endpoints
+      summary: 'GET: All candidates assessments report'
       responses:
         '200':
           description: OK
@@ -482,6 +480,8 @@ paths:
           in: query
           name: completed-lt
           description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is smaller than this value.'
+      tags:
+        - Candidates
     parameters: []
   /integration/assessments/folders:
     post:
