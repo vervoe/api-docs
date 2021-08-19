@@ -4,7 +4,7 @@ info:
   version: '1.8'
   contact:
     name: 'Tobias Bjarnelind — Product Manager, tobias+api@vervoe.com'
-    email: tobias+api@vervoe.com
+    email: tobias@vervoe.com
   termsOfService: 'https://vervoe.com/terms-of-use/'
   description: Technical specifications for Vervoe's API
 servers:
@@ -53,6 +53,23 @@ paths:
                         questionsCount:
                           type: number
                           description: Count of the number of questions in the assessment excluding the optional final feedback for employer question.
+                        skills:
+                          type: array
+                          items:
+                            type: string
+                        auditionFolder:
+                          type: object
+                          nullable: true
+                          properties:
+                            '':
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                uuid:
+                                  type: string
+                                auditionCount:
+                                  type: number
                       required:
                         - name
                         - description
@@ -74,14 +91,28 @@ paths:
                     items:
                       - name: Backend developer test
                         description: Testing php backend developers
-                        slug: ca9a4a83-3a17-4709-a1d8-1349497af98d
-                        questionCount: 3
+                        slug: assessment_1
+                        questionCount: 4
+                        skills:
+                          - problem solving
+                          - javascript
+                          - php
+                        auditionFolder: null
                       - name: Frontend developer test
                         description: Testing Frontend developers
-                        slug: 4921236e-c439-45b3-95f1-19d7b36b80ce
+                        slug: assessment_2
                         questionCount: 3
+                        skills:
+                          - react
+                        auditionFolder:
+                          name: my_folder
+                          uuid: f83cd542-9a0b-4811-89b7-452c1a995cd1
+                          auditionsCount: 1
+                      - ...
+          headers: {}
       operationId: get-assessments
-      description: 'Returns a paginated list of private assessments available for the current integration user (customer or partner). '
+      description: Returns a paginated list of private assessments available for the current API user.
+      parameters: []
     parameters: []
   '/integration/assessments/{slug}/invite':
     parameters:
@@ -463,8 +494,11 @@ paths:
             application/json:
               schema:
                 type: object
+              examples:
+                example-1:
+                  value: {}
         '201':
-          description: ''
+          description: A new resource was successfully created
           content:
             application/json:
               schema:
@@ -483,7 +517,17 @@ paths:
                         type:
                           - number
                           - integer
-      description: 'You can create folders in Vervoe so that you can keep your assessments organised and easier to find. '
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      uuid: 7c5b2adf-4bb2-4283-8e72-6d9a50952f66
+                      name: My folder
+                      auditionCount: 0
+        '400':
+          description: Bad Request
+      description: 'With folders you can help organise your assessments and make them easier to manage. Use this API to create a new folder in your Vervoe account. '
       requestBody:
         content:
           application/json:
@@ -501,6 +545,29 @@ paths:
         description: ''
       tags:
         - Endpoints
+      parameters: []
+  '/integration/assessments/folders/{folderUuid}':
+    parameters:
+      - schema:
+          type: string
+        name: folderUuid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-integration-assessments-folders-folderUuid
+    delete:
+      summary: Delete Assessment Folder
+      operationId: delete-integration-assessments-folders-folderUuid
+      responses:
+        '204':
+          description: No Content
+      description: |-
+        Use this endpoint to delete an Assessment Folder in your Vervoe account. Assessments in the folder will not be deleted. Assessment will be available via the root folder. 
+
+        There is no body for the response. Whether request is a success or if the folder does not exists 204 status will be returned.
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
