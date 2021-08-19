@@ -580,7 +580,7 @@ paths:
         required: true
         description: Your API key
     get:
-      summary: Health Check monitoring on Vervoe API
+      summary: 'GET: Health Check monitoring on Vervoe API'
       responses:
         '200':
           description: OK
