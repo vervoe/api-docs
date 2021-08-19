@@ -6,9 +6,7 @@ Access to Vervoe’s API is for Enterprise customers and Partners. To learn more
 
 
 ## Authentication 
-Each HTTP request made to the Vervoe API must be authenticated by Verveo. 
-
-Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “Authorization: Bearer <\token>”.
+Each HTTP request made to the Vervoe API must be authenticated by Verveo. Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “Authorization: Bearer <\token>”.
 
 *When using the example above, be sure to remove the `\`*
 
@@ -23,12 +21,8 @@ title: "Authorization request header"
 lineNumbers: true
 -->
 
-```
-Authorization: Basic <\Base64 encoded apiKey:secretKey>
-```
-```
-Authorization: Basic <\Base64 encoded apiKey:secretKey>
-```
+`Authorization: Basic <\Base64 encoded apiKey:secretKey>`
+
 *When using the example above, be sure to remove the `\`*
 
 #### Response:
