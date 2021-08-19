@@ -6,11 +6,19 @@ To access Vervoe’s API you need to be on an Enterprise plan or be a Vervoe Par
 
 
 ## API Requests and Authentication Request Method
-All API requests <strong>must</strong> be made over HTTPS. The https://api.vervoe.com/api URL is the request base URL. The complete URL varies depending on the accessed resource. All API requests <strong>must</strong> also be authenticated by Vervoe.  
+All API requests <strong>must</strong> be made over HTTPS. The https://api.vervoe.com/api URL is the request base URL. The complete URL varies depending on the accessed resource. 
 
-Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “`Authorization: Bearer <\token>`”.
+All API requests <strong>must</strong> also be authenticated by Vervoe. We use tokens to authenticate the API users. Those tokens must be sent on every API request in the Authorization header.
+
+**Use the token in the Authorization header like this:**
+
+`Authorization: Bearer <\token>`
 
 *When using the example above, be sure to remove the `\`*
+
+**For the API requests containing JSON data please include the Content-Type header:**
+
+`Content-Type: application/json`
 
 ### Authentication API Request:
 
@@ -39,12 +47,4 @@ lineNumbers: true
 
 > Token expiration time is **10 minutes**. After that time api user must obtain a new token using above mentioned endpoint.
 
-**Then use this token in Authorization header like this:**
 
-Authorization: Bearer <\token>
-
-*When using the example above, be sure to remove the `\`*
-
-**For the API requests containing JSON data please include the Content-Type header:**
-
-Content-Type: application/json
