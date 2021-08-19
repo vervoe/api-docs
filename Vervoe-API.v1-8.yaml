@@ -12,7 +12,7 @@ servers:
 paths:
   /integration/assessments:
     get:
-      summary: Get list of assessments
+      summary: 'GET: List of assessments'
       tags:
         - Assessments
       responses:
@@ -123,9 +123,7 @@ paths:
         required: true
         description: Assessment slug to which the candidate is invited.
     post:
-      summary: Invite candidate to complete assessment
-      tags:
-        - Endpoints
+      summary: 'POST: Invite candidate to assessment'
       responses:
         '200':
           description: OK
@@ -235,6 +233,8 @@ paths:
                   redirectCandidateUrl: 'https://partner-website.com/candidate-landing-page'
                   candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
                   reapply: false
+      tags:
+        - Candidates
   '/integration/user-assessments/{candidateAssessmentUuid}':
     parameters:
       - schema:
@@ -244,9 +244,7 @@ paths:
         required: true
         description: Candidate assessment ID.
     get:
-      summary: Get candidate assessment report
-      tags:
-        - Endpoints
+      summary: 'GET: Candidate assessment report'
       responses:
         '200':
           description: OK
@@ -343,9 +341,11 @@ paths:
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
       operationId: get-user-assessments-candidateAssessmentUuid
       description: Get the candidate’s assessment report by candidate’s assessment ID.
+      tags:
+        - Candidates
   /integration/user-assessments:
     get:
-      summary: List assessment reports
+      summary: 'GET: List assessment reports'
       tags:
         - Endpoints
       responses:
@@ -485,7 +485,7 @@ paths:
     parameters: []
   /integration/assessments/folders:
     post:
-      summary: Create Assessment Folder
+      summary: 'POST: Create assessment folder'
       operationId: post-integration-assessments-folders
       responses:
         '200':
@@ -560,7 +560,7 @@ paths:
       operationId: get-integration-assessments-folders-folderUuid
       x-internal: true
     delete:
-      summary: Delete Assessment Folder
+      summary: 'DELETE: Delete assessment folder'
       operationId: delete-integration-assessments-folders-folderUuid
       responses:
         '204':
@@ -581,8 +581,6 @@ paths:
         description: Your API key
     get:
       summary: Health Check monitoring on Vervoe API
-      tags:
-        - Endpoints
       responses:
         '200':
           description: OK
@@ -624,5 +622,7 @@ paths:
                     errors: Service Unavailable
       operationId: get-public-apihealthcheck-apiKey
       description: Used for monitoring Vervoe API Health Status.
+      tags:
+        - API Health
 components:
   schemas: {}
