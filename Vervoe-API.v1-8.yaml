@@ -571,16 +571,11 @@ paths:
         There is no body for the response. Whether request is a success or if the folder does not exists 204 status will be returned.
       tags:
         - Folders
-  '/integration/assessments/{assessmentSlug}/folders/{folderUuid}/move':
+  'integration/assessments/folders/{folderUUID}':
     parameters:
       - schema:
           type: string
-        name: assessmentSlug
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: folderUuid
+        name: folderUUID
         in: path
         required: true
     get:
@@ -630,6 +625,34 @@ paths:
               example-1:
                 value:
                   name: New folder name
+      x-internal: true
+      tags:
+        - Folders
+  '/integration/assessments/{assessmentSlug}/folders/{folderUUID}/move':
+    parameters:
+      - schema:
+          type: string
+        name: assessmentSlug
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: folderUUID
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Folders
+      responses: {}
+      operationId: get-integration-assessments-assessmentSlug-folders-folderUUID-move
+      x-internal: true
+    patch:
+      summary: 'PATCH: Move assessment to folder'
+      operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
+      responses:
+        '200':
+          description: OK
       x-internal: true
   '/public/apihealthcheck/{apiKey}':
     parameters:
@@ -684,29 +707,5 @@ paths:
       description: Used for monitoring Vervoe API Health Status.
       tags:
         - API Health
-  '/integration/assessments/{assessmentSlug}/folders/{folderUUID}/move':
-    parameters:
-      - schema:
-          type: string
-        name: assessmentSlug
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: folderUUID
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-integration-assessments-assessmentSlug-folders-folderUUID-move
-    patch:
-      summary: 'PATCH: Move assessment to folder'
-      operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
-      responses:
-        '200':
-          description: OK
-      x-internal: true
 components:
   schemas: {}
