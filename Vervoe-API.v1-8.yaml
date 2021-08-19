@@ -15,6 +15,7 @@ paths:
       summary: Get list of assessments
       tags:
         - Endpoints
+        - Assessments
       responses:
         '200':
           description: OK
