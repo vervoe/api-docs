@@ -543,9 +543,9 @@ paths:
                 value:
                   name: My folder
         description: ''
-      tags:
-        - Endpoints
       parameters: []
+      tags:
+        - Folders
   '/integration/assessments/folders/{folderUuid}':
     parameters:
       - schema:
@@ -570,7 +570,7 @@ paths:
 
         There is no body for the response. Whether request is a success or if the folder does not exists 204 status will be returned.
       tags:
-        - Endpoints
+        - Folders
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
