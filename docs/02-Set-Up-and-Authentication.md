@@ -1,26 +1,26 @@
-# Using Vervoe APIs
+# Using Vervoe APIs and Authentication
 
 Vervoe APIs allow developers to request and send information to and from Vervoe.
 
-Access to Vervoe’s API is for Enterprise customers and Partners. To learn more about the API solution or to set up your access please contact: [sales@vervoe.com](mailto:sales@vervoe.com).
+To access Vervoe’s API you need to be on an Enterprise plan or be a Vervoe Partner. To learn more about the API solution or to set up your access please contact: [sales@vervoe.com](mailto:sales@vervoe.com).
 
 
-## Authentication 
-Each HTTP request made to the Vervoe API must be authenticated by Verveo. Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “Authorization: Bearer <\token>”.
+## API Requests and Authentication Request Method
+All API requests <strong>must</strong> be made over HTTPS. The https://api.vervoe.com/api URL is the request base URL. The complete URL varies depending on the accessed resource. All API requests <strong>must</strong> also be authenticated by Vervoe.  
+
+Vervoe uses tokens to authenticate the API users. Those tokens must be sent on every API request in the header as “`Authorization: Bearer <\token>`”.
 
 *When using the example above, be sure to remove the `\`*
 
-To obtain the token following endpoint must be used:
+### Authentication API Request:
 
- @Rest\Get ("https://api.vervoe.com/api/public/ats-api/token")
-
-#### Request headers:
+To obtain your token you must make a <strong>HTTP GET</strong> request to the: https://api.vervoe.com/api/public/ats-api/token URL.   
 
 <!--
 title: "Authorization request header"
 lineNumbers: true
 -->
-
+#### Request header:
 `Authorization: Basic <\Base64 encoded apiKey:secretKey>`
 
 *When using the example above, be sure to remove the `\`*
