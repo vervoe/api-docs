@@ -553,12 +553,7 @@ paths:
         name: folderUuid
         in: path
         required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-integration-assessments-folders-folderUuid
-      x-internal: true
+        description: The assessment folder ID
     delete:
       summary: 'DELETE: Delete assessment folder'
       operationId: delete-integration-assessments-folders-folderUuid
@@ -578,12 +573,6 @@ paths:
         name: folderUUID
         in: path
         required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-integration-assessments-assessmentSlug-folders-folderUuid-move
-      x-internal: true
     patch:
       summary: 'PATCH: Rename assessment to folder'
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUuid-move
@@ -635,24 +624,37 @@ paths:
         name: assessmentSlug
         in: path
         required: true
+        description: The assessment slug
       - schema:
           type: string
         name: folderUUID
         in: path
         required: true
-    get:
-      summary: Your GET endpoint
-      tags:
-        - Folders
-      responses: {}
-      operationId: get-integration-assessments-assessmentSlug-folders-folderUUID-move
-      x-internal: true
+        description: The assessment folder ID
     patch:
       summary: 'PATCH: Move assessment to folder'
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
       responses:
         '200':
           description: OK
+      x-internal: true
+      tags:
+        - Folders
+  '/integration/assessments/{assessmentSlug}/folders':
+    parameters:
+      - schema:
+          type: string
+        name: assessmentSlug
+        in: path
+        required: true
+        description: The assessment slug
+    delete:
+      summary: 'DELETE: Remove assessment from current folder'
+      operationId: delete-integration-assessments-assessmentSlug-folders
+      responses:
+        '200':
+          description: OK
+      description: 'Use this endpoint if you no longer wish for an assessment to belong to a specific folder. The assessment itself will not be deleted, it can still be found in the root folder.'
       x-internal: true
       tags:
         - Folders
@@ -709,5 +711,26 @@ paths:
       description: Used for monitoring Vervoe API Health Status.
       tags:
         - API Health
+  '/integration/user-assessments/{candidateAssessmentUuid}/reject':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment ID
+    post:
+      summary: 'POST: Reject candidate'
+      operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Candidates
+      x-internal: true
+      description: |-
+        Use our reject API for candidates that did not meet your requirements to progress in the selection process. 
+
+        This will trigger a Reject email to the candidates IF it has been enabled in the Vervoe UI. 
 components:
   schemas: {}
