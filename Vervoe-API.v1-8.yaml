@@ -571,6 +571,66 @@ paths:
         There is no body for the response. Whether request is a success or if the folder does not exists 204 status will be returned.
       tags:
         - Folders
+  '/integration/assessments/{assessmentSlug}/folders/{folderUuid}/move':
+    parameters:
+      - schema:
+          type: string
+        name: assessmentSlug
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: folderUuid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-integration-assessments-assessmentSlug-folders-folderUuid-move
+      x-internal: true
+    patch:
+      summary: 'PATCH: Rename assessment to folder'
+      operationId: patch-integration-assessments-assessmentSlug-folders-folderUuid-move
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                      name:
+                        type: string
+                      auditionCount:
+                        type: number
+      description: 'With the help of this endpoint, API users can rename existing folders.'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: folderUuid
+          description: The unique identifier of a folder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: New folder name
+      x-internal: true
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
@@ -624,5 +684,29 @@ paths:
       description: Used for monitoring Vervoe API Health Status.
       tags:
         - API Health
+  '/integration/assessments/{assessmentSlug}/folders/{folderUUID}/move':
+    parameters:
+      - schema:
+          type: string
+        name: assessmentSlug
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: folderUUID
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-integration-assessments-assessmentSlug-folders-folderUUID-move
+    patch:
+      summary: 'PATCH: Move assessment to folder'
+      operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
+      responses:
+        '200':
+          description: OK
+      x-internal: true
 components:
   schemas: {}
