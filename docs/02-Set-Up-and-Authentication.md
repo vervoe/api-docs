@@ -45,6 +45,6 @@ lineNumbers: true
 ```
 <!-- theme: warning -->
 
-> Token expiration time is **10 minutes**. After that time api user must obtain a new token using above mentioned endpoint.
+> Token expiration time is **10 minutes**. After that time API user must obtain a new token using above mentioned endpoint.
 
 
