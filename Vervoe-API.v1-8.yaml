@@ -869,7 +869,7 @@ paths:
         in: path
         required: true
     patch:
-      summary: 'PATCH: Hire Candidate'
+      summary: 'PATCH: Hire candidate'
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
       responses:
         '200':
@@ -972,6 +972,8 @@ paths:
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
                       timeTaken: null
                       submitTime: null
+      tags:
+        - Candidates
 components:
   schemas: {}
   examples: {}
