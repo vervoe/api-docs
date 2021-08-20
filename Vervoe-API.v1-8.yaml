@@ -121,7 +121,7 @@ paths:
         name: slug
         in: path
         required: true
-        description: Assessment slug to which the candidate is invited.
+        description: Assessment slug to which the candidate is invited
     post:
       summary: 'POST: Invite candidate to assessment'
       responses:
@@ -235,6 +235,7 @@ paths:
                   reapply: false
       tags:
         - Candidates
+      parameters: []
   '/integration/user-assessments/{candidateAssessmentUuid}':
     parameters:
       - schema:
@@ -451,7 +452,9 @@ paths:
                           integrationCandidateCardUrl: 'https://api.vervoe.com/integration-card/vito-222/11367?token=957465d469e2a6cf82e3b6dbc80eed7c5701df47'
       operationId: get-user-assessments
       description: |-
-        Get paginated assessment report list with possibility to sort and filter. Example request: 
+        Get paginated assessment report list with possibility to sort and filter. 
+
+        Example request:
         https://api.vervoe.com/api/integration/user-assessments?page=1&sort=completed&order=desc&completed-gt=2020-01-16 22:31:10.0 UTC&completed-lt=2020-01-16 22:39:32.0 UTC
       parameters:
         - schema:
@@ -488,17 +491,8 @@ paths:
       summary: 'POST: Create assessment folder'
       operationId: post-integration-assessments-folders
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              examples:
-                example-1:
-                  value: {}
         '201':
-          description: A new resource was successfully created
+          description: Created
           content:
             application/json:
               schema:
@@ -527,6 +521,29 @@ paths:
                       auditionCount: 0
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors: Folder with title My Folder already exists!
+                    msg: Folder with title My Folder already exists!
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                Unauthorized:
+                  value:
+                    success: false
+                    msg: Invalid credentials.
       description: 'With folders you can help organise your assessments and make them easier to manage. Use this API to create a new folder in your Vervoe account. '
       requestBody:
         content:
@@ -546,33 +563,33 @@ paths:
       parameters: []
       tags:
         - Folders
-  '/integration/assessments/folders/{folderUuid}':
+  '/integration/assessments/folders/{UUID}':
     parameters:
       - schema:
           type: string
-        name: folderUuid
+        name: UUID
         in: path
         required: true
-        description: The assessment folder ID
+        description: The assessment folder unique ID
     delete:
       summary: 'DELETE: Delete assessment folder'
       operationId: delete-integration-assessments-folders-folderUuid
       responses:
         '204':
-          description: No Content
-      description: |-
+          description: No Content - There is no body for the response. Whether request is a success or if the folder is not found a 204 status will be returned.
+      description: |
         Use this endpoint to delete an Assessment Folder in your Vervoe account. Assessments in the folder will not be deleted. Assessment will be available via the root folder. 
-
-        There is no body for the response. Whether request is a success or if the folder does not exists 204 status will be returned.
       tags:
         - Folders
-  'integration/assessments/folders/{folderUUID}':
+      parameters: []
+  'integration/assessments/folders/{UUID}':
     parameters:
       - schema:
           type: string
-        name: folderUUID
+        name: UUID
         in: path
         required: true
+        description: The assessment folder unique ID
     patch:
       summary: 'PATCH: Rename assessment to folder'
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUuid-move
@@ -595,13 +612,16 @@ paths:
                         type: string
                       auditionCount:
                         type: number
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      uuid: 7c5b2adf-4bb2-4283-8e72-6d9a50952f66
+                      name: New folder name
+                      auditionCount: 3
       description: 'With the help of this endpoint, API users can rename existing folders.'
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: folderUuid
-          description: The unique identifier of a folder
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -614,10 +634,10 @@ paths:
               example-1:
                 value:
                   name: New folder name
-      x-internal: true
+      x-internal: false
       tags:
         - Folders
-  '/integration/assessments/{assessmentSlug}/folders/{folderUUID}/move':
+  '/integration/assessments/{assessmentSlug}/folders/{UUID}/move':
     parameters:
       - schema:
           type: string
@@ -627,19 +647,57 @@ paths:
         description: The assessment slug
       - schema:
           type: string
-        name: folderUUID
+        name: UUID
         in: path
         required: true
-        description: The assessment folder ID
     patch:
       summary: 'PATCH: Move assessment to folder'
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
       responses:
         '200':
           description: OK
-      x-internal: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      auditionFolder:
+                        type: object
+                        properties:
+                          uuid:
+                            type: string
+                          name:
+                            type: string
+                          auditionsCount:
+                            type: number
+                      description:
+                        type: string
+                      name:
+                        type: string
+                      slug:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      auditionFolder:
+                        uuid: 7c5b2adf-4bb2-4283-8e72-6d9a50952f66
+                        name: My folder name
+                        auditionsCount: 3
+                      description: Assessment Description
+                      name: Assessment Name
+                      slug: assessment-slug
+      x-internal: false
       tags:
         - Folders
+      description: Move an assessment from one folder to another.
+      parameters: []
   '/integration/assessments/{assessmentSlug}/folders':
     parameters:
       - schema:
@@ -654,10 +712,38 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: number
+                  data:
+                    type: object
+                    properties:
+                      auditionFolder:
+                        type: string
+                      description:
+                        type: string
+                      name:
+                        type: string
+                      slug:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      auditionFolder: 'null'
+                      description: Assessment Description
+                      name: Assessment Name
+                      slug: assessment-slug
       description: 'Use this endpoint if you no longer wish for an assessment to belong to a specific folder. The assessment itself will not be deleted, it can still be found in the root folder.'
-      x-internal: true
+      x-internal: false
       tags:
         - Folders
+      parameters: []
   '/public/apihealthcheck/{apiKey}':
     parameters:
       - schema:
