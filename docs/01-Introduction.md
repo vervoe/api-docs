@@ -1,10 +1,13 @@
 # Introduction
 
-<!-- theme: success -->
 
-> We have developed an API for customers and partners to integrate Vervoe's skills assessment solution into their own systems. 
->
-> It is a simple API that provides access to Vervoe's core functionality; seeing what assessments are available to send, sending the assessment to candidates, and seeing their results. 
+
+The Vervoe API allows developers to access a collection of resources from Vervoe. The API make it possible for partners to integrate with Vervoe's skills assessment solution and bring some of the most used features into their own systems. 
+
+> Features available include; seeing what assessments are available and organise content, inviting candidates and monitoring progress and results. 
+
+All Vervoe APIs are based on REST architecture and are accessed via HTTPS at specific URLs. Updates are released frequently and are communicated via our release notifications. 
+
 
 #### Contact 
 
