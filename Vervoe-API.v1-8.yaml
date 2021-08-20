@@ -202,7 +202,7 @@ paths:
                   description: The candidate’s last name.
                 sendInvitationEmail:
                   type: boolean
-                  description: 'true by default. The text and company logo in the emails are customizable from within the Vervoe account. '
+                  description: 'True by default. The text and company logo in the emails are customizable from within the Vervoe account. '
                 redirectCandidateUrl:
                   type: string
                   description: The url to which candidate will be redirected on successful assessment completion.
@@ -212,6 +212,8 @@ paths:
                 reapply:
                   type: boolean
                   description: |-
+                    False by default. The optional reapply can be used to allow candidates to reapply and there is a need to take the same assessment.
+
                     if candidateAssessmentUuid doesn’t exist - always create new userAudition
 
                     if candidateAssessmentUuid exists: 
@@ -222,7 +224,6 @@ paths:
               required:
                 - candidateEmail
                 - candidateFirstName
-                - candidateLastName
             examples:
               example-1:
                 value:
@@ -265,7 +266,6 @@ paths:
                       - completedAt
                       - score
                       - integrationCandidateCardUrl
-                      - startedAt
                     properties:
                       candidateAssessmentUuid:
                         type: string
@@ -292,17 +292,18 @@ paths:
                             type:
                               - string
                               - number
-                              - object
-                              - 'null'
                             description: Score formatted according to the predefined style. See 3.d and 3.e for examples of scoreByFormat.
-                          '':
-                            type: string
+                            nullable: true
                       integrationCandidateCardUrl:
                         type: string
                         description: URL for accessing candidate card profile in Vervoe.
-                      startedAt:
+                      timeTaken:
                         type: string
                         description: Time the candidate started.
+                        nullable: true
+                      submitTime:
+                        type: string
+                        nullable: true
                 required:
                   - success
                   - data
@@ -811,12 +812,166 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                      status:
+                        type: string
+                      startedAt:
+                        type: string
+                        nullable: true
+                      completedAt:
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        nullable: true
+                      integrationCandidateUrl:
+                        type: string
+                      timeTaken:
+                        type: string
+                      submitTime:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: rejected
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: null
+                      score: null
+                      integrationCandidateUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
       tags:
         - Candidates
-      x-internal: true
+      x-internal: false
       description: |-
         Use our reject API for candidates that did not meet your requirements to progress in the selection process. 
 
-        This will trigger a Reject email to the candidates IF it has been enabled in the Vervoe UI. 
+        This will trigger a Reject email to the candidate IF it has been set up and enabled in the Vervoe UI. 
+  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/hire':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+    patch:
+      summary: 'PATCH: Hire Candidate'
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    description: Candidate Report Object
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                      status:
+                        type: string
+                      startedAt:
+                        type: string
+                        nullable: true
+                      completedAt:
+                        nullable: true
+                      score:
+                        nullable: true
+                      integrationCandidateCardUrl:
+                        type: string
+                      timeTaken:
+                        nullable: true
+                      submitTime:
+                        nullable: true
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: hired
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: null
+                      score: null
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: null
+                      submitTime: null
+      description: Hire the candidate by the candidate's assessment UUID
+      tags:
+        - Candidates
+  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/unhire':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: The unique candidate assessment ID
+    patch:
+      summary: 'PATCH: Unhire candidate'
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-unhire'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    description: Candidate Report Object
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                      status:
+                        type: string
+                      startedAt:
+                        type: string
+                      completedAt:
+                        nullable: true
+                      score:
+                        nullable: true
+                      integrationCandidateCardUrl:
+                        type: string
+                      timeTaken:
+                        nullable: true
+                      submitTime:
+                        nullable: true
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: completed
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: null
+                      score: null
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: null
+                      submitTime: null
 components:
   schemas: {}
+  examples: {}
