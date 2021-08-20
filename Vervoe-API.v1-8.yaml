@@ -411,24 +411,32 @@ paths:
                                   properties:
                                     groupName:
                                       type: string
-                                      description: The skill assessed
+                                      description: The skill name by which quesitons are grouped
                                     sort:
                                       type: integer
                                       deprecated: true
+                                      description: Deprecated
                                     ScoreType:
                                       type: integer
+                                      description: 'Possible values: [1|2] Depends on values chosen in Assessment Skill Groups Settings: 1: Display score as a percentage. 2: Display custom text depending on score.'
                                     result:
                                       type: string
+                                      description: The text selected fro scoreType 2 in Assessment settings. For scoreType 1 value of this field equals the value in scorePercentage field.
                                     resultWithAdditionalText:
                                       type: string
+                                      description: 'For scoreType 2. Example value: "16/20 PTS - good result!"'
                                     scorePercentage:
-                                      type: string
+                                      description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum/scoresCount*10'
+                                      type: integer
                                     scoreSum:
-                                      type: string
+                                      description: Sum of scores per skill
+                                      type: integer
                                     isManualScore:
-                                      type: string
+                                      type: boolean
+                                      description: '''True'' if all scores in a groupName are determined by the Employer (manual grading or autograding), false otherwise.'
                                     questionGroupUuid:
                                       type: string
+                                      description: UUID of questions belonging to a groupName/skill
                             startedAt:
                               type: string
                               description: Time at which the assessment was started or null if it wasn't started yet.
@@ -664,6 +672,7 @@ paths:
               properties:
                 name:
                   type: string
+                  description: The new name of the folder
             examples:
               example-1:
                 value:
@@ -684,6 +693,7 @@ paths:
         name: UUID
         in: path
         required: true
+        description: The folder that you wish to move the assessment too
     patch:
       summary: 'PATCH: Move assessment to folder'
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
@@ -866,26 +876,35 @@ paths:
                     type: boolean
                   data:
                     type: object
+                    description: The candidate report object holds information about a candidates assessment
                     properties:
                       candidateAssessmentUuid:
                         type: string
+                        description: Candidate assessment UUID is the unique identifier for the specific assessment
                       status:
                         type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in_progress, hired, rejected.'
                       startedAt:
                         type: string
+                        description: 'Time at which the assessment was started or null, if it wasn''t completed yet. '
                         nullable: true
                       completedAt:
                         type: string
+                        description: Time at which the assessment was completed or null if it wasn't completed yet.
                         nullable: true
                       score:
                         type: object
+                        description: Score object returns null
                         nullable: true
                       integrationCandidateUrl:
                         type: string
+                        description: Url tot he candidate information card containing score and detailed answers.
                       timeTaken:
                         type: string
+                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
                       submitTime:
                         type: string
+                        description: 'The sum of time the candidate spent on each question or null if the assessment was not completed yet. '
               examples:
                 example-1:
                   value:
@@ -897,8 +916,8 @@ paths:
                       completedAt: null
                       score: null
                       integrationCandidateUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: 'null'
-                      submitTime: 'null'
+                      timeTaken: null
+                      submitTime: null
       tags:
         - Candidates
       x-internal: false
@@ -913,6 +932,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
+        description: The unique identifier of the candidate assessment
     patch:
       summary: 'PATCH: Hire candidate'
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
@@ -928,24 +948,32 @@ paths:
                     type: boolean
                   data:
                     type: object
-                    description: Candidate Report Object
+                    description: Candidate Report Object which holds data about the unique candidate assessment
                     properties:
                       candidateAssessmentUuid:
                         type: string
+                        description: The unique identifier to the candidate's assessment
                       status:
                         type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected.'
                       startedAt:
                         type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
                         nullable: true
                       completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
                         nullable: true
                       score:
+                        description: The object holding a candidates scores. Will always return null for this API call
                         nullable: true
                       integrationCandidateCardUrl:
                         type: string
+                        description: Url to the candidate information card including scores and detailed answers
                       timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         nullable: true
                       submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
                         nullable: true
               examples:
                 example-1:
@@ -986,23 +1014,31 @@ paths:
                     type: boolean
                   data:
                     type: object
-                    description: Candidate Report Object
+                    description: Candidate Report Object which holds information about a candidates assessment
                     properties:
                       candidateAssessmentUuid:
                         type: string
+                        description: The Unique identifier to a candidate's assessment
                       status:
                         type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected.'
                       startedAt:
                         type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
                       completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
                         nullable: true
                       score:
+                        description: If assessment was completed outputs the array of available score data. Will always return null for this API call
                         nullable: true
                       integrationCandidateCardUrl:
                         type: string
+                        description: Url to get the candidate info card
                       timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         nullable: true
                       submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
                         nullable: true
               examples:
                 example-1:
