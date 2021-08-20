@@ -59,17 +59,18 @@ paths:
                             type: string
                         auditionFolder:
                           type: object
+                          description: Assessment Folder Object
                           nullable: true
                           properties:
-                            '':
-                              type: object
-                              properties:
-                                name:
-                                  type: string
-                                uuid:
-                                  type: string
-                                auditionCount:
-                                  type: number
+                            name:
+                              type: string
+                              description: The assessment folder name
+                            uuid:
+                              type: string
+                              description: Assessment folder UUID
+                            auditionCount:
+                              type: string
+                              description: Number of assessments in folder
                       required:
                         - name
                         - description
@@ -259,7 +260,7 @@ paths:
                     type: boolean
                   data:
                     type: object
-                    description: ''
+                    description: The candidate report object
                     required:
                       - candidateAssessmentUuid
                       - status
@@ -368,60 +369,78 @@ paths:
                       - items
                     properties:
                       currentPage:
-                        type: number
+                        type: integer
+                        description: Current page offset
                       total:
-                        type: number
+                        type: integer
+                        description: Total count of all results
                       count:
-                        type: number
+                        type: integer
+                        description: Count of results for currentPage
                       hasMorePages:
                         type: boolean
+                        description: 'If current page is last page from the result the output is ''false'', else ''true'''
                       items:
                         type: array
+                        description: The candidate report object
                         items:
                           type: object
                           properties:
                             candidateAssessmentUuid:
                               type: string
-                              description: Candidate assessment ID. Unique identifier for the candidate assessment.
+                              description: Candidate assessment UUID is the unique identifier for the candidate assessment
                             status:
                               type: string
-                              description: 'Assessment completion status. Possible values: complete, incomplete, in progress, or expired.'
+                              description: 'Assessment completion status. Possible values: complete, incomplete, expired, in_progress, hired, rejected'
                             completedAt:
-                              type:
-                                - string
-                                - 'null'
-                              description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
+                              type: string
+                              description: 'Time at which the assessment was completed or null if it wasn''t completed yet. '
                             score:
                               type: object
-                              description: If assessment was completed outputs the array of available score data.
-                              required:
-                                - type
-                                - score
-                                - scoreByFormat
+                              description: 'If assessment was completed outputs the array of available score data. '
+                              nullable: true
                               properties:
                                 type:
                                   type: string
-                                  description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI '
+                                  description: 'Score type. Possible values: TYPE_MANUAL and TYPE_AI'
                                 score:
                                   type: integer
-                                  description: Overall score value.
                                 scoreByFormat:
-                                  type:
-                                    - integer
-                                    - 'null'
-                                    - array
-                                    - string
-                                  items:
-                                    type: object
+                                  type: object
+                                  description: Score by format object outputs the score per skill
+                                  properties:
+                                    groupName:
+                                      type: string
+                                      description: The skill assessed
+                                    sort:
+                                      type: integer
+                                      deprecated: true
+                                    ScoreType:
+                                      type: integer
+                                    result:
+                                      type: string
+                                    resultWithAdditionalText:
+                                      type: string
+                                    scorePercentage:
+                                      type: string
+                                    scoreSum:
+                                      type: string
+                                    isManualScore:
+                                      type: string
+                                    questionGroupUuid:
+                                      type: string
                             startedAt:
                               type: string
-                              description: Time the candidate started.
-                          required:
-                            - candidateAssessmentUuid
-                            - status
-                            - completedAt
-                            - score
-                            - startedAt
+                              description: Time at which the assessment was started or null if it wasn't started yet.
+                            integrationCandidateCardUrl:
+                              type: string
+                              description: Url to get the candidate inforamtion card with detailed responses
+                            timeTaken:
+                              type: string
+                              description: 'Time from when the assessment was started until it was submitted. Null if it was not submitted yet. '
+                            submitTime:
+                              type: string
+                              description: The sum of time the candidate spent on each question or null if assessment wasn't completed yet.
                 required:
                   - success
                   - data
@@ -468,22 +487,27 @@ paths:
             type: string
           in: query
           name: sort
-          description: '(optional) default: updated, One of the following: completed, created, updated.'
+          description: '(optional) updated by default. One of the following: completed (only with status=complete), created, updated.'
         - schema:
             type: string
           in: query
           name: order
-          description: 'default: asc, Sort order. One of the following: asc, desc.'
+          description: '(optional) Sort order asc by default. One of the following: asc, desc.'
         - schema:
             type: string
           in: query
           name: completed-gt
-          description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is greater than this value.'
+          description: '(optional) in DateTime format. A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC. Return results where the assessment completion date field is greater than this value. If timezone isn''t specified, then we imply that the time is in the company''s timezone (which is set in company settings). If completed-gt and compelted-lt are set and completed-gt > completed-lt Bad Request error is returned. Can be used only with status=complete.'
         - schema:
             type: string
           in: query
           name: completed-lt
-          description: 'in DateTime format (optional), A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC Return results where the assessment completion date field is smaller than this value.'
+          description: '(optional) in DateTime format. A filter on the list based on the assessment completion date. The value can be a string in following datetime format: 2020-01-16 22:31:10.0 UTC. Return results where the assessment completion date field is smaller than this value. If timezone isn''t specified, then we imply that the time is in the company''s timezone (which is set in company settings). If completed-gt and completed-lt are set and completed-gt > completed-lt Bad Request error is returned. Can be used only with status=complete.'
+        - schema:
+            type: string
+          in: query
+          name: status
+          description: '(optional) Filters by status. Null by default. One of the following: complete, expired, in_progress, hired, rejected'
       tags:
         - Candidates
     parameters: []
@@ -503,15 +527,18 @@ paths:
                     type: boolean
                   data:
                     type: object
+                    description: Assessment folder object
                     properties:
                       uuid:
                         type: string
+                        description: Assessment folder UUID
                       name:
                         type: string
+                        description: Name of assessment folder
                       auditionCount:
-                        type:
-                          - number
-                          - integer
+                        type: integer
+                        description: Number of assessments in the folder
+                        nullable: true
               examples:
                 example-1:
                   value:
@@ -554,6 +581,7 @@ paths:
               properties:
                 name:
                   type: string
+                  description: Name of folder
               required:
                 - name
             examples:
@@ -606,13 +634,18 @@ paths:
                     type: boolean
                   data:
                     type: object
+                    description: The assessment folder object
                     properties:
                       uuid:
                         type: string
+                        description: The unique ID of the assessment folder
                       name:
                         type: string
+                        description: The folder name
                       auditionCount:
-                        type: number
+                        type: integer
+                        description: Number of assessments in the folder
+                        nullable: true
               examples:
                 example-1:
                   value:
@@ -669,19 +702,27 @@ paths:
                     properties:
                       auditionFolder:
                         type: object
+                        description: Assessment folder object
                         properties:
                           uuid:
                             type: string
+                            description: Unique ID of the folder
                           name:
                             type: string
+                            description: The folder name
                           auditionsCount:
-                            type: number
+                            description: Number of assessments in the folder
+                            type: integer
+                            nullable: true
                       description:
                         type: string
+                        description: Description of the assessment
                       name:
                         type: string
+                        description: Name of the assessment
                       slug:
                         type: string
+                        description: The assessment slug
               examples:
                 example-1:
                   value:
@@ -724,13 +765,17 @@ paths:
                     type: object
                     properties:
                       auditionFolder:
-                        type: string
+                        description: The assessment folder
+                        nullable: true
                       description:
                         type: string
+                        description: The assessment description
                       name:
                         type: string
+                        description: The assessment name
                       slug:
                         type: string
+                        description: The assessment slug
               examples:
                 example-1:
                   value:
