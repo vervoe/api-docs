@@ -3,8 +3,9 @@ info:
   title: Vervoe API
   version: '1.8'
   contact:
-    name: 'Tobias Bjarnelind — Product Manager, tobias+api@vervoe.com'
+    name: Tobias Bjarnelind — Product Manager
     email: tobias@vervoe.com
+    url: 'https://vervoe.com/contact/'
   termsOfService: 'https://vervoe.com/terms-of-use/'
   description: Technical specifications for Vervoe's API
 servers:
@@ -1058,3 +1059,4 @@ paths:
 components:
   schemas: {}
   examples: {}
+  securitySchemes: {}
