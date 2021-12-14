@@ -1058,7 +1058,7 @@ paths:
         - Candidates
   /public/ats-api/token:
     get:
-      summary: Your GET endpoint
+      summary: 'GET: Authentication'
       tags:
         - Authentication
       responses:
