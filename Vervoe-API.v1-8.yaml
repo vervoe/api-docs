@@ -1173,10 +1173,6 @@ paths:
         We use tokens to authenticate the API users. Those tokens must be sent on every API request in the Authorization header.
 
         Token expiration time is 10 minutes. After that time API users must obtain a new token using this endpoint. 
-    head:
-      summary: ''
-      operationId: head-public-ats-api-token
-      x-internal: true
 components:
   schemas: {}
   examples: {}
