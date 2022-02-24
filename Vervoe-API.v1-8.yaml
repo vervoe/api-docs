@@ -223,6 +223,15 @@ paths:
                     if userAudition  “active“ = 0 - throw error 
 
                     if userAudition  “active“ = 1 - create new userAudition
+                enableFeedback:
+                  type: boolean
+                  description: False by default. The optional enable feedback can be used to show candidate feedback form after assessment is completed
+                sendInvitationSms:
+                  type: boolean
+                  description: 'False by default. If current plan doesn''t allow sending invitation SMS to candidate, candidatePhone is not set, the SMS limit is reached, not valid candidate phone is used  a BadRequest Exception is triggered.'
+                candidatePhone:
+                  type: string
+                  description: 'The candidate’s mobile number. If sendInvitationSms is true, candidatePhone is required. SMS will be sent to this number.'
               required:
                 - candidateEmail
                 - candidateFirstName
