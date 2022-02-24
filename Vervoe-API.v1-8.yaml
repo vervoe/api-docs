@@ -610,25 +610,6 @@ paths:
       parameters: []
       tags:
         - Folders
-  '/integration/assessments/folders/{UUID}':
-    parameters:
-      - schema:
-          type: string
-        name: UUID
-        in: path
-        required: true
-        description: The assessment folder unique ID
-    delete:
-      summary: 'DELETE: Delete assessment folder'
-      operationId: delete-integration-assessments-folders-folderUuid
-      responses:
-        '204':
-          description: No Content - There is no body for the response. Whether request is a success or if the folder is not found a 204 status will be returned.
-      description: |
-        Use this endpoint to delete an Assessment Folder in your Vervoe account. Assessments in the folder will not be deleted. Assessment will be available via the root folder. 
-      tags:
-        - Folders
-      parameters: []
   'integration/assessments/folders/{UUID}':
     parameters:
       - schema:
@@ -759,6 +740,25 @@ paths:
       tags:
         - Folders
       description: Move an assessment from one folder to another.
+      parameters: []
+  '/integration/assessments/folders/{UUID}':
+    parameters:
+      - schema:
+          type: string
+        name: UUID
+        in: path
+        required: true
+        description: The assessment folder unique ID
+    delete:
+      summary: 'DELETE: Delete assessment folder'
+      operationId: delete-integration-assessments-folders-folderUuid
+      responses:
+        '204':
+          description: No Content - There is no body for the response. Whether request is a success or if the folder is not found a 204 status will be returned.
+      description: |
+        Use this endpoint to delete an Assessment Folder in your Vervoe account. Assessments in the folder will not be deleted. Assessment will be available via the root folder. 
+      tags:
+        - Folders
       parameters: []
   '/integration/assessments/{assessmentSlug}/folders':
     parameters:
