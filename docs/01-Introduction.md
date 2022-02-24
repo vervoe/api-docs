@@ -11,6 +11,6 @@ All Vervoe APIs are based on REST architecture and are accessed via HTTPS at spe
 
 #### Contact 
 
-**Tobias Bjarnelind** — *Product Manager*  
+**Nicole Bowes** — *Head of Product*  
 
-[tobias@vervoe.com]("mailto:tobias+api@vervoe.com")
+[nicole@vervoe.com]("mailto:nicole+api@vervoe.com")
