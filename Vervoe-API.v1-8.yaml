@@ -255,7 +255,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: Candidate assessment ID.
+        description: Candidate assessment UUID.
     get:
       summary: 'GET: Candidate assessment report'
       responses:
@@ -280,7 +280,7 @@ paths:
                     properties:
                       candidateAssessmentUuid:
                         type: string
-                        description: Candidate assessment ID. Unique identifier for the candidate assessment.
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment.
                       status:
                         type: string
                         description: 'Assessment completion status. Possible values: complete, incomplete, in progress, or expired.'
@@ -870,7 +870,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: Candidate assessment ID
+        description: Candidate assessment UUID
     post:
       summary: 'POST: Reject candidate'
       operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
@@ -1008,7 +1008,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: The unique candidate assessment ID
+        description: The unique candidate assessment UUID
     patch:
       summary: 'PATCH: Unhire candidate'
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-unhire'
