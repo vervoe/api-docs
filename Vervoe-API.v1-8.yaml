@@ -935,7 +935,7 @@ paths:
         Use our reject API for candidates that did not meet your requirements to progress in the selection process. 
 
         This will trigger a Reject email to the candidate IF it has been set up and enabled in the Vervoe UI. 
-  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/hire':
+  '/integration/user-assessments/{candidateAssessmentUuid}/hire':
     parameters:
       - schema:
           type: string
@@ -1001,7 +1001,7 @@ paths:
       description: Hire the candidate by the candidate's assessment UUID
       tags:
         - Candidates
-  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/unhire':
+  '/integration/user-assessments/{candidateAssessmentUuid}/unhire':
     parameters:
       - schema:
           type: string
@@ -1065,7 +1065,7 @@ paths:
                       submitTime: null
       tags:
         - Candidates
-  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/tags':
+  '/integration/user-assessments/{candidateAssessmentUuid}/tags':
     parameters:
       - schema:
           type: string
