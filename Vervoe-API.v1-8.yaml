@@ -203,7 +203,7 @@ paths:
                   description: The url to which candidate will be redirected on successful assessment completion.
                 candidateAssessmentUuid:
                   type: string
-                  description: The optional candidate assessment uuid can be used to obtain invitation url for already invited candidate.
+                  description: The optional candidate assessment UUID can be used to obtain invitation url for already invited candidate.
                 reapply:
                   type: boolean
                   description: |-
