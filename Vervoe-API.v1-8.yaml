@@ -1059,7 +1059,7 @@ paths:
                                 description: UUID of Question Group Skill
                       integrationCandidateCardUrl:
                         type: string
-                        description: Url to get the candidate info card
+                        description: URL to get the candidate info card
                       timeTaken:
                         description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
@@ -1185,7 +1185,7 @@ paths:
                                 description: UUID of Question Group Skill
                       integrationCandidateCardUrl:
                         type: string
-                        description: Url to get the candidate info card
+                        description: URL to get the candidate info card
                       timeTaken:
                         description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
@@ -1311,7 +1311,7 @@ paths:
                                 description: UUID of Question Group Skill
                       integrationCandidateCardUrl:
                         type: string
-                        description: Url to get the candidate info card
+                        description: URL to get the candidate info card
                       timeTaken:
                         description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
