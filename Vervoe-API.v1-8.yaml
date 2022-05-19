@@ -1065,6 +1065,155 @@ paths:
                       submitTime: null
       tags:
         - Candidates
+  '/https://api.vervoe.com/api/integration/user-assessments/{candidateAssessmentUuid}/tags':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: 'PATCH: Tag candidate'
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-tags'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: The Unique identifier to a candidate's assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        required:
+                          - scoreByFormat
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                          score:
+                            type: string
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - string
+                              - number
+                            description: Score formatted according to the predefined style. See 3.d and 3.e for examples of scoreByFormat
+                            nullable: true
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: Url to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        nullable: true
+                      tags:
+                        type: array
+                        description: 'Array of tag names'
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: completed
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
+                      tags:
+                        tag 1
+                        tag 2
+                        tag 3
+        '400':
+          description: |-
+        Bad Request
+
+        If more than 10 tags are added with the one request or if the company limit on tags reached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errors:
+                    type: string
+                  msg:
+                    type: string
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors: Cannot tag candidate. Tag limit 10 reached
+                    msg: Cannot tag candidate. Tag limit 10 reached
+                example-2:
+                  value:
+                    success: false
+                    errors: Cannot tag candidate. Company tag limit reached
+                    msg: Cannot tag candidate. Company tag limit reached
+      description: Tag the candidate by the candidate’s assessment UUID.
+      requestBody:
+       
+                  description: Array of tag names.   
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  description:  |-
+                    Array of tag names
+                    
+                    To remove tags pass in request body empty array.
+
+                    Tag names are converted to lowercase.
+
+                    If the tag name exceeds 150 characters, it will be truncated to 150 characters. 
+
+                    Duplicate and empty tag names will be ignored.
+            examples:
+              example-1:
+                value:
+                  tags:
+                        tag 1
+                        tag 2
+                        tag 3
+      tags:
+        - Candidates
   /public/ats-api/token:
     get:
       summary: 'GET: Authentication'
