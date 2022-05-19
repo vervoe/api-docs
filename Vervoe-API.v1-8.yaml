@@ -1189,27 +1189,25 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                tags:
-                  type: array
-                  description:  |-
-                    Array of tag names
-                    
-                    To remove tags pass in request body empty array.
+              type: array
+              items:
+                type: string
+              description:  |-
+                Array of tag names
+                
+                To remove tags pass in request body empty array.
 
-                    Tag names are converted to lowercase.
+                Tag names are converted to lowercase.
 
-                    If the tag name exceeds 150 characters, it will be truncated to 150 characters. 
+                If the tag name exceeds 150 characters, it will be truncated to 150 characters. 
 
-                    Duplicate and empty tag names will be ignored.
+                Duplicate and empty tag names will be ignored.
             examples:
               example-1:
                 value:
-                  tags:
-                        tag 1
-                        tag 2
-                        tag 3
+                  - tag 1
+                  - tag 2
+                  - tag 3
       tags:
         - Candidates
   /public/ats-api/token:
