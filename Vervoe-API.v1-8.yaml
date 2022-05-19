@@ -965,17 +965,31 @@ paths:
                         description: The unique identifier to the candidate's assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected.'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
                         nullable: true
                       completedAt:
-                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet.'
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
                         nullable: true
                       score:
                         description: The object holding a candidates scores. Will always return null for this API call
+                        type: object
                         nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: string
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - string
+                              - number
+                            description: Score formatted according to the predefined style
+                            nullable: true
                       integrationCandidateCardUrl:
                         type: string
                         description: Url to the candidate information card including scores and detailed answers
@@ -992,12 +1006,15 @@ paths:
                     data:
                       candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
                       status: hired
-                      startedAt: '2021-03-03T15:44:44+00:00'
-                      completedAt: null
-                      score: null
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: null
-                      submitTime: null
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
       description: Hire the candidate by the candidate's assessment UUID
       tags:
         - Candidates
@@ -1040,7 +1057,21 @@ paths:
                         nullable: true
                       score:
                         description: If assessment was completed outputs the array of available score data. Will always return null for this API call
+                        type: object
                         nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: string
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - string
+                              - number
+                            description: Score formatted according to the predefined style
+                            nullable: true
                       integrationCandidateCardUrl:
                         type: string
                         description: Url to get the candidate info card
@@ -1057,14 +1088,18 @@ paths:
                     data:
                       candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
                       status: completed
-                      startedAt: '2021-03-03T15:44:44+00:00'
-                      completedAt: null
-                      score: null
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: null
-                      submitTime: null
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
       tags:
         - Candidates
+      description: Unhire the candidate by the candidate’s assessment UUID
   '/integration/user-assessments/{candidateAssessmentUuid}/tags':
     parameters:
       - schema:
@@ -1105,6 +1140,7 @@ paths:
                       score:
                         type: object
                         description: If assessment was completed outputs the array of available score data
+                        nullable: true
                         properties:
                           type:
                             type: string
@@ -1116,7 +1152,7 @@ paths:
                             type:
                               - string
                               - number
-                            description: Score formatted according to the predefined style. See 3.d and 3.e for examples of scoreByFormat
+                            description: Score formatted according to the predefined style
                             nullable: true
                       integrationCandidateCardUrl:
                         type: string
@@ -1129,7 +1165,7 @@ paths:
                         nullable: true
                       tags:
                         type: array
-                        description: 'Array of tag names'
+                        description: Array of tag names
                         items:
                           type: string
               examples:
@@ -1152,10 +1188,27 @@ paths:
                         - tag 1
                         - tag 2
                         - tag 3
+                example-2:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: string
+                      status: string
+                      startedAt: string
+                      completedAt: null
+                      score:
+                        type: string
+                        score: string
+                        scoreByFormat: string
+                      integrationCandidateCardUrl: string
+                      timeTaken: null
+                      submitTime: null
+                      tags:
+                        - string
         '400':
           description: |-
             Bad Request
-    
+
             If more than 10 tags are added with the one request or if the company limit on tags reached.
           content:
             application/json:
@@ -1168,9 +1221,6 @@ paths:
                     type: string
                   msg:
                     type: string
-                required:
-                  - success
-                  - errors
               examples:
                 example-1:
                   value:
@@ -1182,7 +1232,7 @@ paths:
                     success: false
                     errors: Cannot tag candidate. Company tag limit reached
                     msg: Cannot tag candidate. Company tag limit reached
-      description: Tag the candidate by the candidate’s assessment UUID.
+      description: Tag the candidate by the candidate’s assessment UUID
       requestBody:
         content:
           application/json:
@@ -1190,9 +1240,9 @@ paths:
               type: array
               items:
                 type: string
-              description:  |-
+              description: |-
                 Array of tag names
-                
+
                 To remove tags pass in request body empty array.
 
                 Tag names are converted to lowercase.
