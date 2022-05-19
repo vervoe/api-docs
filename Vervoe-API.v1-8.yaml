@@ -1184,10 +1184,6 @@ paths:
                     msg: Cannot tag candidate. Company tag limit reached
       description: Tag the candidate by the candidate’s assessment UUID.
       requestBody:
-       
-                  description: Array of tag names.   
-            
-      requestBody:
         content:
           application/json:
             schema:
