@@ -1132,6 +1132,8 @@ paths:
                       tags:
                         type: array
                         description: 'Array of tag names'
+                        items:
+                          type: string
               examples:
                 example-1:
                   value:
@@ -1149,9 +1151,9 @@ paths:
                       timeTaken: 2 minutes 19 seconds
                       submitTime: 11 minutes 49 seconds
                       tags:
-                        tag 1
-                        tag 2
-                        tag 3
+                        - tag 1
+                        - tag 2
+                        - tag 3
         '400':
           description: |-
             Bad Request
