@@ -1105,12 +1105,10 @@ paths:
                       score:
                         type: object
                         description: If assessment was completed outputs the array of available score data
-                        required:
-                          - scoreByFormat
                         properties:
                           type:
                             type: string
-                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
                           score:
                             type: string
                             description: Score value
