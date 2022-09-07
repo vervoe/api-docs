@@ -405,12 +405,6 @@ paths:
                     type: boolean
                   data:
                     type: object
-                    required:
-                      - currentPage
-                      - total
-                      - count
-                      - hasMorePages
-                      - items
                     properties:
                       currentPage:
                         type: integer
@@ -493,9 +487,6 @@ paths:
                             submitTime:
                               type: string
                               description: The sum of time the candidate spent on each question or null if assessment wasn't completed yet.
-                required:
-                  - success
-                  - data
               examples:
                 example-1:
                   value:
