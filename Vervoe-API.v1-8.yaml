@@ -241,7 +241,6 @@ paths:
                   reapply: false
       tags:
         - Candidates
-      parameters: []
   '/integration/user-assessments/{candidateAssessmentUuid}/candidateUrl':
     parameters:
       - schema:
