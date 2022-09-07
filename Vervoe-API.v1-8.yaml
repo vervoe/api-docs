@@ -1221,6 +1221,130 @@ paths:
       tags:
         - Candidates
       description: Unhire the candidate by the candidate’s assessment UUID
+  '/integration/user-assessments/{candidateAssessmentUuid}/reset':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: The unique candidate assessment UUID
+    patch:
+      summary: 'PATCH: Reset candidate’s assessment and extend deadline'
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-reset'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: The Unique identifier to a candidate's assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: integer
+                            description: Score value
+                          scoreByFormat:
+                            description: Score formatted according to the predefined style
+                            type:
+                              - object
+                              - string
+                              - integer
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                description: |-
+                                  Possible values: [1 | 2] 
+                                  Depends on values chosen in Assessment Skill Groups Settings:
+                                   1 - Display score as a percentage
+                                   2 - Display custom text depending on score
+                              result:
+                                type: string
+                                description: |-
+                                  The text selected for scoreType: 2  in Assessment settings. 
+                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
+                              resultWithAdditionalText:
+                                type: string
+                                description: 'Example value: "16/20 PTS - good result!"'
+                              scorePercentage:
+                                type: integer
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              scoreSum:
+                                type: integer
+                                description: Sum of scores per group
+                              isManualScore:
+                                type: boolean
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      tags:
+                        type: array
+                        description: Array of tag names
+                        items:
+                          type: string
+                      smsSent:
+                        type: boolean
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: invited
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: null
+                      score: null
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: null
+                      submitTime: null
+                      smsSent: false
+      tags:
+        - Candidates
+      description: Reset assessment and extend deadline by the candidate's assessment UUID
   '/integration/user-assessments/{candidateAssessmentUuid}/tags':
     parameters:
       - schema:
