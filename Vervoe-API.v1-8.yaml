@@ -275,10 +275,10 @@ paths:
                     success: true
                     data:
                       candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'
-      operationId: get-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-candidateUrl
-      description: Get the login URL by the candidate's assessment UUID
-      tags:
-        - Candidates
+    operationId: get-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-candidateUrl
+    description: Get the login URL by the candidate's assessment UUID
+    tags:
+      - Candidates
   '/integration/user-assessments/{candidateAssessmentUuid}':
     parameters:
       - schema:
