@@ -274,8 +274,7 @@ paths:
                   value:
                     success: true
                     data:
-                      candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'
-          description: ''             
+                      candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'          
       operationId: get-user-assessments-candidateAssessmentUuid-candidateUrl
       description: Get the login link by the candidate's assessment UUID
       tags:
