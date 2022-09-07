@@ -249,7 +249,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: Candidate assessment UUID
+        description: The unique candidate assessment UUID
     get:
       summary: 'GET: Candidate''s login link'
       responses:
@@ -278,7 +278,7 @@ paths:
         '':
           description: ''
       operationId: get-user-assessments-candidateAssessmentUuid-candidateUrl
-      description: Get the candidate’s login link by the candidate's assessment UUID
+      description: Get the login link by the candidate's assessment UUID
       tags:
         - Candidates
   '/integration/user-assessments/{candidateAssessmentUuid}':
@@ -288,7 +288,7 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: Candidate assessment UUID
+        description: The unique candidate assessment UUID
     get:
       summary: 'GET: Candidate assessment report'
       responses:
