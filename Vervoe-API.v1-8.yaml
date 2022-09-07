@@ -242,6 +242,39 @@ paths:
       tags:
         - Candidates
       parameters: []
+  '/integration/user-assessments/{candidateAssessmentUuid}/candidateUrl':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: The unique candidate assessment UUID
+    patch:
+      summary: 'GET: Get candidate's login URL'
+      operationId: 'get-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-candidateUrl'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    description: Response data
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'
+      tags:
+        - Candidates
+      description: Get the candidate's login URL
   '/integration/user-assessments/{candidateAssessmentUuid}':
     parameters:
       - schema:
