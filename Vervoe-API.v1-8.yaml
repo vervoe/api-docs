@@ -250,7 +250,7 @@ paths:
         in: path
         required: true
         description: The unique candidate assessment UUID
-    patch:
+    get:
       summary: 'GET: Get candidate's login URL'
       operationId: 'get-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-candidateUrl'
       responses:
