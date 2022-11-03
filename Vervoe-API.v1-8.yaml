@@ -225,6 +225,9 @@ paths:
                 candidatePhone:
                   type: string
                   description: 'The candidate’s mobile number. If sendInvitationSms is true, candidatePhone is required. SMS will be sent to this number.'
+                eeocEnabled:
+                  type: boolean
+                  description: Determines whether the candidate will see  EEOC survey after the assessment. False by default.
               required:
                 - candidateEmail
                 - candidateFirstName
@@ -239,6 +242,7 @@ paths:
                   candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
                   enableFeedback: true
                   reapply: false
+                  eeocEnabled: false
       tags:
         - Candidates
       parameters: []
@@ -274,7 +278,7 @@ paths:
                   value:
                     success: true
                     data:
-                      candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'          
+                      candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'
       operationId: get-user-assessments-candidateAssessmentUuid-candidateUrl
       description: Get the login link by the candidate's assessment UUID
       tags:
