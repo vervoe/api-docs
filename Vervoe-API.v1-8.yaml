@@ -11,6 +11,176 @@ info:
 servers:
   - url: 'https://api.vervoe.com/api'
 paths:
+  /public/ats-api/token:
+    get:
+      summary: 'GET: Authentication'
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        minLength: 1
+                    required:
+                      - token
+                required:
+                  - success
+                  - data
+                x-examples:
+                  example-1:
+                    success: true
+                    data:
+                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errors:
+                    type: string
+                    minLength: 1
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - success
+                  - errors
+                  - msg
+                x-examples:
+                  example-1:
+                    success: false
+                    errors: Provide apiKey/secret please.
+                    msg: Provide apiKey/secret please.
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors: Provide apiKey/secret please.
+                    msg: Provide apiKey/secret please.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  type:
+                    type: string
+                    minLength: 1
+                  title:
+                    type: string
+                    minLength: 1
+                  status:
+                    type: number
+                  detail:
+                    type: string
+                    minLength: 1
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+                x-examples:
+                  example-1:
+                    type: 'https://tools.ietf.org/html/rfc2616#section-10'
+                    title: An error occurred
+                    status: 401
+                    detail: Unauthorized
+              examples:
+                example-1:
+                  value:
+                    type: 'false'
+                    title: An error occured
+                    status: 401
+                    detail: Unauthorized
+      operationId: get-public-ats-api-token
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: 'Basic <\Base64 encoded apiKey:secretKey>'
+      description: |-
+        We use tokens to authenticate the API users. Those tokens must be sent on every API request in the Authorization header.
+
+        Token expiration time is 10 minutes. After that time API users must obtain a new token using this endpoint. 
+  '/public/apihealthcheck/{apiKey}':
+    parameters:
+      - schema:
+          type: string
+        name: apiKey
+        in: path
+        required: true
+        description: Your API key
+    get:
+      summary: 'GET: Health Check monitoring on Vervoe API'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: string
+                required:
+                  - success
+                  - data
+              examples:
+                'status: 200':
+                  value:
+                    success: true
+                    data: ok
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  errors:
+                    type: string
+                required:
+                  - success
+                  - errors
+              examples:
+                'status: 503 Service Unavailable':
+                  value:
+                    success: false
+                    errors: Service Unavailable
+      operationId: get-public-apihealthcheck-apiKey
+      description: Used for monitoring Vervoe API Health Status.
+      tags:
+        - API Health
   /integration/assessments:
     get:
       summary: 'GET: List of assessments'
@@ -72,22 +242,11 @@ paths:
                             auditionCount:
                               type: string
                               description: Number of assessments in folder
-                      required:
-                        - name
-                        - description
-                        - slug
-                        - questionsCount
-                required:
-                  - count
-                  - total
-                  - hasMorePages
-                  - currentPage
-                  - items
               examples:
                 example-1:
                   value:
-                    count: 8
-                    total: 8
+                    count: 2
+                    total: 2
                     hasMorePages: false
                     currentPage: 1
                     items:
@@ -125,7 +284,7 @@ paths:
         required: true
         description: Assessment slug to which the candidate is invited
     post:
-      summary: 'POST: Invite candidate to assessment'
+      summary: Invite candidate to assessment
       responses:
         '200':
           description: OK
@@ -136,6 +295,7 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
                     properties:
@@ -179,7 +339,7 @@ paths:
                       candidateAssessmentUuid: <uuid>
                       candidateUrl: <URL to the assessment>
       operationId: post-assessments-slug-invite
-      description: Invites the candidate to complete the assessment by assessment slug
+      description: Invites the candidate to complete the assessment by assessment slug.
       requestBody:
         content:
           application/json:
@@ -188,13 +348,13 @@ paths:
               properties:
                 candidateEmail:
                   type: string
-                  description: The candidate’s email address.
+                  description: The candidate’s email address
                 candidateFirstName:
                   type: string
-                  description: Candidate’s first name.
+                  description: Candidate’s first name
                 candidateLastName:
                   type: string
-                  description: The candidate’s last name.
+                  description: The candidate’s last name
                 sendInvitationEmail:
                   type: boolean
                   description: 'True by default. The text and company logo in the emails are customizable from within the Vervoe account. '
@@ -246,16 +406,18 @@ paths:
       tags:
         - Candidates
       parameters: []
-  '/integration/user-assessments/{candidateAssessmentUuid}/candidateUrl':
+  '/integration/user-assessments/{candidateAssessmentUuid}/send-invite-sms':
     parameters:
       - schema:
           type: string
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: The unique candidate assessment UUID
-    get:
-      summary: 'GET: Candidate''s login link'
+        description: Candidate assessment UUID
+    patch:
+      summary: Send Invite SMS on assessment to Candidate
+      tags:
+        - Candidates
       responses:
         '200':
           description: OK
@@ -266,21 +428,268 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    x-stoplight:
+                      id: 74uth9j5qsnu3
+                    description: Response status
                   data:
                     type: object
+                    x-stoplight:
+                      id: u6v2z275svljy
                     description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        x-stoplight:
+                          id: qeie3p4csfp40
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        x-stoplight:
+                          id: xxumxp1sh1krp
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        x-stoplight:
+                          id: jf21b19vs0ph2
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        type: string
+                        x-stoplight:
+                          id: eeejjmnxgc0e9
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        nullable: true
+                      score:
+                        type: object
+                        x-stoplight:
+                          id: 0l1f9pz76xymm
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            x-stoplight:
+                              id: m4z5bsfxca841
+                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                          score:
+                            type: integer
+                            x-stoplight:
+                              id: 5qhdnfxp7n66v
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - object
+                              - integer
+                              - string
+                            x-stoplight:
+                              id: ipidmlgw6eoq9
+                            description: Score formatted according to the predefined style
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                x-stoplight:
+                                  id: 6dgcy0qi9irmp
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                x-stoplight:
+                                  id: q1794ych6jebr
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                x-stoplight:
+                                  id: 97odwod9xj3gg
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                x-stoplight:
+                                  id: j63ik4pvp0plg
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                x-stoplight:
+                                  id: gextmqz8syynn
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                x-stoplight:
+                                  id: 8wu9w6k4e4zrn
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        x-stoplight:
+                          id: 6jl4bhqm0c05y
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        type: string
+                        x-stoplight:
+                          id: p3eqfexojl40g
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        nullable: true
+                      submitTime:
+                        type: string
+                        x-stoplight:
+                          id: b9ci34qmptrah
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        nullable: true
+                      tags:
+                        type: array
+                        x-stoplight:
+                          id: l5g4zqy8xqk9a
+                        description: Array of tag names
+                        items:
+                          x-stoplight:
+                            id: ltznbl4x89do9
+                          type: string
+                      smsSent:
+                        type: boolean
+                        x-stoplight:
+                          id: bm7na03oy9jua
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: v9qy3o6c39tam
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: hsxf970mez67c
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: 1nskywpsn2zov
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: 4d81pnkziatyv
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: rejected
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: 'null'
+                      score: 'null'
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+        '400':
+          description: |-
+            Bad Request: 
+            Candidate's phone number is not set /
+            If the company SMS quota is reached /
+            When trying to use invalid candidate’s phone
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: z11ovkl5p1rnu
+                    description: Response status
+                  errors:
+                    type: string
+                    x-stoplight:
+                      id: f4ll6l4end3xs
+                    description: Errors text
+                  msg:
+                    type: string
+                    x-stoplight:
+                      id: 01hat2qx80bgj
+                    description: Message text
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    errors: 'Send SMS error. Check if your candidate''s phone is the valid mobile phone in international format. For example: +380971111111'
+                    msg: 'Send SMS error. Check if your candidate''s phone is the valid mobile phone in international format. For example: +380971111111'
+                Example 2:
+                  value:
+                    success: false
+                    errors: No SMS credit available
+                    msg: No SMS credit available
+                Example 3:
+                  value:
+                    success: true
+                    errors: Candidate phone is not set
+                    msg: Candidate phone is not set
+      operationId: patch-integration-user-assessments-candidateAssessmentUuid-send-invite-sms
+      description: Send Invite SMS on assessment to Candidate.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                candidatePhone:
+                  type: string
+                  x-stoplight:
+                    id: ghdzpf00dpbdc
+                  description: Candidate phone in international format. If the candidate phone is not provided  - 400 Bad request error is thrown
+              required:
+                - candidatePhone
+            examples:
+              Example 1:
+                value:
+                  candidatePhone: '+380978888777'
+        description: ''
+  '/integration/user-assessments/{candidateAssessmentUuid}/candidateUrl':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    get:
+      summary: Get candidate's login link
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
                     properties:
                       candidateUrl:
                         type: string
+                        x-stoplight:
+                          id: adcdozim1cffb
                         description: The URL by which candidate can complete the assessment
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
                       candidateUrl: 'https://company-slug.vervoe.com/login?token=eyJ0eXAiOiJKV1'
       operationId: get-user-assessments-candidateAssessmentUuid-candidateUrl
-      description: Get the login link by the candidate's assessment UUID
+      description: Get the login link by the candidate's assessment UUID.
       tags:
         - Candidates
   '/integration/user-assessments/{candidateAssessmentUuid}':
@@ -290,9 +699,9 @@ paths:
         name: candidateAssessmentUuid
         in: path
         required: true
-        description: The unique candidate assessment UUID
+        description: Candidate assessment UUID
     get:
-      summary: 'GET: Candidate assessment report'
+      summary: Get candidate assessment report
       responses:
         '200':
           description: OK
@@ -303,6 +712,7 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
                     description: Candidate Report Object which holds information about a candidates assessment
@@ -333,11 +743,11 @@ paths:
                             type: integer
                             description: Score value
                           scoreByFormat:
-                            description: Score formatted according to the predefined style. See 3.d and 3.e for examples of scoreByFormat.
                             type:
                               - object
                               - string
                               - integer
+                            description: Score formatted according to the predefined style
                             nullable: true
                             properties:
                               groupName:
@@ -346,24 +756,14 @@ paths:
                               scoreType:
                                 type: integer
                                 description: |-
-                                  Possible values: [1 | 2] 
-                                  Depends on values chosen in Assessment Skill Groups Settings:
+                                  Possible values: [1]
                                    1 - Display score as a percentage
-                                   2 - Display custom text depending on score
                               result:
                                 type: string
-                                description: |-
-                                  The text selected for scoreType: 2  in Assessment settings. 
-                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
-                              resultWithAdditionalText:
-                                type: string
-                                description: 'Example value: "16/20 PTS - good result!"'
+                                description: 'For scoreType: 1 value of this field equals to the value in scorePercentage field'
                               scorePercentage:
                                 type: integer
                                 description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10 '
-                              scoreSum:
-                                type: integer
-                                description: Sum of scores per group
                               isManualScore:
                                 type: boolean
                                 description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
@@ -372,7 +772,7 @@ paths:
                                 description: 'UUID of Question Group Skill '
                       integrationCandidateCardUrl:
                         type: string
-                        description: URL for accessing candidate card profile in Vervoe
+                        description: URL to get the candidate info card
                       timeTaken:
                         type: string
                         description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
@@ -389,8 +789,28 @@ paths:
                       smsSent:
                         type: boolean
                         description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: yitaxmocciwz7
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: its04z1nkic26
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: yt9daef6fy2za
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: rtfpn14vr8fkh
+                        description: If plagiarism detected
               examples:
-                example-1 Manual % Overall:
+                Example 1 Manual % Overall:
                   value:
                     success: true
                     data:
@@ -405,7 +825,16 @@ paths:
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
                       timeTaken: 2 minutes 19 seconds
                       submitTime: 11 minutes 49 seconds
-                example-2 Manual Group Scores with Text:
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+                Example 2 Manual Group Scores:
                   value:
                     success: true
                     data:
@@ -415,20 +844,29 @@ paths:
                       startedAt: '2020-03-04T12:19:12+00:00'
                       score:
                         type: TYPE_MANUAL
-                        score: 100
+                        score: 60
                         scoreByFormat:
                           - groupName: Group 1
                             sort: 0
                             scoreType: 1
                             result: '60'
-                            resultWithAdditionalText: '60'
                             scorePercentage: 60
-                            scoreSum: 12
+                            isManualScore: true
+                            questionGroupUuid: a45f173c-19b0-4fdf-ac62-a8426ca7b895
                       integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
                       timeTaken: 2 minutes 19 seconds
                       submitTime: 11 minutes 49 seconds
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
       operationId: get-user-assessments-candidateAssessmentUuid
-      description: Get the candidate’s assessment report by candidate’s assessment ID
+      description: Get the candidate’s assessment report by candidate’s assessment UUID.
       tags:
         - Candidates
   /integration/user-assessments:
@@ -444,6 +882,7 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
                     properties:
@@ -595,6 +1034,1010 @@ paths:
       tags:
         - Candidates
     parameters: []
+  '/integration/user-assessments/{candidateAssessmentUuid}/reset':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: Reset candidate’s assessment and extend deadline
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-reset'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: integer
+                            description: Score value
+                          scoreByFormat:
+                            description: Score formatted according to the predefined style
+                            type:
+                              - object
+                              - string
+                              - integer
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                description: 'For scoreType: 1 value of this field equals to the value in scorePercentage field'
+                              scorePercentage:
+                                type: integer
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      tags:
+                        type: array
+                        description: Array of tag names
+                        items:
+                          type: string
+                      smsSent:
+                        type: boolean
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: he0a3v7wrh700
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: 64iylvcmst6jn
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: jg9c729h5zj38
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: t7vxg15q4u6ud
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: invited
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: 'null'
+                      score: null
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
+                      tags: []
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+      tags:
+        - Candidates
+      description: Reset assessment and extend deadline by the candidate's assessment UUID.
+  '/integration/user-assessments/{candidateAssessmentUuid}/reject':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    post:
+      summary: 'POST: Reject candidate'
+      operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
+                    description: The candidate report object holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment UUID is the unique identifier for the specific assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in_progress, hired, rejected.'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn''t completed yet. '
+                        nullable: true
+                      completedAt:
+                        type: string
+                        description: Time at which the assessment was completed or null if it wasn't completed yet.
+                        nullable: true
+                      score:
+                        type: string
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                      integrationCandidateUrl:
+                        type: string
+                        description: Url tot he candidate information card containing score and detailed answers.
+                      timeTaken:
+                        type: string
+                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
+                        nullable: true
+                      submitTime:
+                        type: string
+                        description: 'The sum of time the candidate spent on each question or null if the assessment was not completed yet. '
+                        nullable: true
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: rejected
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: 'null'
+                      score: 'null'
+                      integrationCandidateUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
+      tags:
+        - Candidates
+      x-internal: false
+      description: |-
+        Use our reject API for candidates that did not meet your requirements to progress in the selection process. 
+
+        This will trigger a Reject email to the candidate IF it has been set up and enabled in the Vervoe UI. 
+      deprecated: true
+    patch:
+      summary: Reject candidate
+      operationId: patch-integration-user-assessments-candidateAssessmentUuid-reject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: 6sueqg1x3o7bb
+                    description: Response status
+                  data:
+                    type: object
+                    x-stoplight:
+                      id: 6jfj2fc97czra
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        x-stoplight:
+                          id: 1vfqg9ba435c7
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        x-stoplight:
+                          id: dvhe03zzzkl0l
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        x-stoplight:
+                          id: moavi91b8sl34
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        type: string
+                        x-stoplight:
+                          id: xyk7mpa4os40j
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        nullable: true
+                      score:
+                        type: object
+                        x-stoplight:
+                          id: rzujp98vqmwn5
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            x-stoplight:
+                              id: whkqjfn6t2hz7
+                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                          score:
+                            type: integer
+                            x-stoplight:
+                              id: rlh7l6bdzu9n0
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - object
+                              - integer
+                              - string
+                            x-stoplight:
+                              id: b7ihm8hxnyu4r
+                            description: Score formatted according to the predefined style
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                x-stoplight:
+                                  id: utr5cbz05a8kn
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                x-stoplight:
+                                  id: h8h0ogozg1yo1
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                x-stoplight:
+                                  id: y4shvysmjbnie
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                x-stoplight:
+                                  id: 9qvi6tz1cv1gk
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                x-stoplight:
+                                  id: tagunbnbb0yp6
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                x-stoplight:
+                                  id: a4n8phdypgr7a
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        x-stoplight:
+                          id: ph9nov0yj6rci
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        type: string
+                        x-stoplight:
+                          id: aafk4yjrce1o9
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        nullable: true
+                      submitTime:
+                        type: string
+                        x-stoplight:
+                          id: dbdi8fm2thl7b
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        nullable: true
+                      tags:
+                        type: array
+                        x-stoplight:
+                          id: sgn3pqfmxg5ez
+                        description: Array of tag names
+                        items:
+                          x-stoplight:
+                            id: vqaweb0006j1r
+                          type: string
+                      smsSent:
+                        type: boolean
+                        x-stoplight:
+                          id: oz8ris7yase84
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: d5wb3ao0igetm
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: k4iu6fv7m4wg3
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: i71fql22lh80z
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: 9o82otfxm3tvo
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: rejected
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: string
+                      score:
+                        type: string
+                        score: 0
+                        scoreByFormat:
+                          groupName: string
+                          scoreType: 0
+                          result: string
+                          scorePercentage: 0
+                          isManualScore: true
+                          questionGroupUuid: string
+                      integrationCandidateCardUrl: string
+                      timeTaken: string
+                      submitTime: string
+                      tags:
+                        - string
+                      smsSent: true
+                      candidateEmail: string
+                      assessmentSlug: string
+                      anticheatingGeolocationDetected: true
+                      plagiarismDetected: true
+      description: Reject the candidate by the candidate’s assessment UUID. If rejecting already rejected candidate “Bad Request 400” error is not triggered
+  '/integration/user-assessments/{candidateAssessmentUuid}/hire':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: Hire candidate
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: integer
+                            description: Score value
+                          'scoreByFormat:':
+                            type:
+                              - object
+                              - integer
+                              - string
+                            x-stoplight:
+                              id: gdqn0x8y7brpa
+                            description: Score formatted according to the predefined style
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                x-stoplight:
+                                  id: r01fdeb288dqn
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                x-stoplight:
+                                  id: guciygmb1cgcg
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                x-stoplight:
+                                  id: aukmxm2gwhv8m
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                x-stoplight:
+                                  id: bi5fw586r0tlm
+                                description: "\t\nScore percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10"
+                              isManualScore:
+                                type: boolean
+                                x-stoplight:
+                                  id: 84myb2kdsyub7
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                x-stoplight:
+                                  id: ddvshlgouvowl
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      tags:
+                        type: array
+                        description: Array of tag names
+                        items:
+                          type: string
+                      smsSent:
+                        type: boolean
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: tjoy9ptelbd7a
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: k1clzq63bmxq2
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: oicb35tyjxsyk
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: chs1ee18ab7lr
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: hired
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+      description: Hire the candidate by the candidate's assessment UUID.
+      tags:
+        - Candidates
+  '/integration/user-assessments/{candidateAssessmentUuid}/unhire':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: Unhire candidate
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-unhire'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: integer
+                            description: Score value
+                          scoreByFormat:
+                            description: Score formatted according to the predefined style
+                            type:
+                              - object
+                              - string
+                              - integer
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      tags:
+                        type: array
+                        description: Array of tag names
+                        items:
+                          type: string
+                      smsSent:
+                        type: boolean
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: qxb2gz4jme84i
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: 86yy4fhviepme
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: nrtypnzy99388
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: m6qm6n310f2z5
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: completed
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+      tags:
+        - Candidates
+      description: Unhire the candidate by the candidate’s assessment UUID.
+  '/integration/user-assessments/{candidateAssessmentUuid}/hiringData':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: Update hiring data
+      tags:
+        - Candidates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: 8wo8zmv2kmh6b
+                    description: Response status
+                  data:
+                    type: object
+                    x-stoplight:
+                      id: jq5y3mckyh522
+                    description: Hiring Data Object
+                    properties:
+                      hiringManagerDate:
+                        type: string
+                        x-stoplight:
+                          id: rx9ru88qwpenj
+                        description: 'Hiring Manager Date in ISO8601 format 2020-01-13T22:11:49+11:00'
+                      hiringManager:
+                        type: object
+                        x-stoplight:
+                          id: 8yjtbbmb2lgbo
+                        description: Hiring Manager Object
+                        properties:
+                          fullName:
+                            type: string
+                            x-stoplight:
+                              id: t2w742pn6arcg
+                            description: "\t\nHiring Manger full name"
+                          email:
+                            type: string
+                            x-stoplight:
+                              id: c2zutdhx7si3p
+                            description: Hiring Manager email
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      hiringManagerDate: '2020-01-13T22:11:49+11:00'
+                      hiringManager:
+                        fullName: Full Name
+                        email: hiring.manager@example.com
+      operationId: patch-integration-user-assessments-candidateAssessmentUuid-hiringData
+      description: Update hiring data by the candidate’s assessment UUID. The candidate must be hired on assessment before adding the hiring data.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hiringManagerDate:
+                  type: string
+                  x-stoplight:
+                    id: ads5zru2u23nf
+                  description: "\t\nThe hiring manager date. If null is passed - the date will be removed"
+                  nullable: true
+                hiringManager:
+                  type: object
+                  x-stoplight:
+                    id: 84pz3w7hlx9mi
+                  description: 'HiringManager object. If null is passed, the hiring manager will be unassigned from the candidate assessment'
+                  nullable: true
+                  properties:
+                    fullName:
+                      type: string
+                      x-stoplight:
+                        id: urdkwdlfzc07u
+                      description: "\t\nHiring Manger full name"
+                    email:
+                      type: string
+                      x-stoplight:
+                        id: 4d98dooxpikgu
+                      description: Hiring Manager email
+            examples:
+              Example 1:
+                value:
+                  hiringManagerDate: '2020-01-13T22:11:49+11:00'
+                  hiringManager:
+                    fullName: Full Name
+                    email: hiring.manager@example.com
+  '/integration/user-assessments/{candidateAssessmentUuid}/tags':
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
+    patch:
+      summary: Tag candidate
+      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-tags'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  data:
+                    type: object
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      score:
+                        type: object
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
+                          score:
+                            type: integer
+                            description: Score value
+                          scoreByFormat:
+                            description: Score formatted according to the predefined style
+                            type:
+                              - object
+                              - string
+                              - integer
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                description: |-
+                                  Possible values: [1]
+                                   1 - Display score as a percentage
+                              result:
+                                type: string
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              questionGroupUuid:
+                                type: string
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      submitTime:
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        type: string
+                        nullable: true
+                      tags:
+                        type: array
+                        description: Array of tag names
+                        items:
+                          type: string
+                      smsSent:
+                        type: boolean
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: ftfb1ca1wo6ou
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: m3siz89lyjg1x
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: 2vpjem04qobfv
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: yq838hp1ft13i
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: completed
+                      startedAt: '2020-01-13T22:00:00+11:00'
+                      completedAt: '2020-01-13T22:11:49+11:00'
+                      score:
+                        type: TYPE_MANUAL
+                        score: 100
+                        scoreByFormat: 100
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 2 minutes 19 seconds
+                      submitTime: 11 minutes 49 seconds
+                      tags:
+                        - tag 1
+                        - tag 2
+                        - tag 3
+                      smsSent: true
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+        '400':
+          description: |-
+            Bad Request
+
+            If more than 10 tags are added with the one request or if the company limit on tags reached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  errors:
+                    type: string
+                    description: Error text
+                  msg:
+                    type: string
+                    description: Message text
+              examples:
+                Example 1:
+                  value:
+                    success: false
+                    errors: Cannot tag candidate. Tag limit 10 reached
+                    msg: Cannot tag candidate. Tag limit 10 reached
+                Example 2:
+                  value:
+                    success: false
+                    errors: Cannot tag candidate. Company tag limit reached
+                    msg: Cannot tag candidate. Company tag limit reached
+      description: Tag the candidate by the candidate’s assessment UUID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              description: |-
+                Array of tag names
+
+                To remove tags pass in request body empty array.
+
+                Tag names are converted to lowercase.
+
+                If the tag name exceeds 150 characters, it will be truncated to 150 characters. 
+
+                Duplicate and empty tag names will be ignored.
+            examples:
+              Example 1:
+                value:
+                  - tag 1
+                  - tag 2
+                  - tag 3
+      tags:
+        - Candidates
   /integration/assessments/folders:
     post:
       summary: 'POST: Create assessment folder'
@@ -876,142 +2319,18 @@ paths:
       tags:
         - Folders
       parameters: []
-  '/public/apihealthcheck/{apiKey}':
+  /integration/assessments/invite-packages:
     parameters:
       - schema:
           type: string
-        name: apiKey
+        name: slug
         in: path
         required: true
-        description: Your API key
-    get:
-      summary: 'GET: Health Check monitoring on Vervoe API'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: string
-                required:
-                  - success
-                  - data
-              examples:
-                'status: 200':
-                  value:
-                    success: true
-                    data: ok
-        '503':
-          description: Service Unavailable
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  errors:
-                    type: string
-                required:
-                  - success
-                  - errors
-              examples:
-                'status: 503 Service Unavailable':
-                  value:
-                    success: false
-                    errors: Service Unavailable
-      operationId: get-public-apihealthcheck-apiKey
-      description: Used for monitoring Vervoe API Health Status.
-      tags:
-        - API Health
-  '/integration/user-assessments/{candidateAssessmentUuid}/reject':
-    parameters:
-      - schema:
-          type: string
-        name: candidateAssessmentUuid
-        in: path
-        required: true
-        description: Candidate assessment UUID
+        description: Assessment slug to which the candidate is invited
     post:
-      summary: 'POST: Reject candidate'
-      operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    description: The candidate report object holds information about a candidates assessment
-                    properties:
-                      candidateAssessmentUuid:
-                        type: string
-                        description: Candidate assessment UUID is the unique identifier for the specific assessment
-                      status:
-                        type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in_progress, hired, rejected.'
-                      startedAt:
-                        type: string
-                        description: 'Time at which the assessment was started or null, if it wasn''t completed yet. '
-                        nullable: true
-                      completedAt:
-                        type: string
-                        description: Time at which the assessment was completed or null if it wasn't completed yet.
-                        nullable: true
-                      score:
-                        type: object
-                        description: Score object returns null
-                        nullable: true
-                      integrationCandidateUrl:
-                        type: string
-                        description: Url tot he candidate information card containing score and detailed answers.
-                      timeTaken:
-                        type: string
-                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
-                      submitTime:
-                        type: string
-                        description: 'The sum of time the candidate spent on each question or null if the assessment was not completed yet. '
-              examples:
-                example-1:
-                  value:
-                    success: true
-                    data:
-                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
-                      status: rejected
-                      startedAt: '2021-03-03T15:44:44+00:00'
-                      completedAt: null
-                      score: null
-                      integrationCandidateUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: null
-                      submitTime: null
+      summary: 'POST: Create Assessment Invite Package'
       tags:
-        - Candidates
-      x-internal: false
-      description: |-
-        Use our reject API for candidates that did not meet your requirements to progress in the selection process. 
-
-        This will trigger a Reject email to the candidate IF it has been set up and enabled in the Vervoe UI. 
-  '/integration/user-assessments/{candidateAssessmentUuid}/hire':
-    parameters:
-      - schema:
-          type: string
-        name: candidateAssessmentUuid
-        in: path
-        required: true
-        description: The unique identifier of the candidate assessment
-    patch:
-      summary: 'PATCH: Hire candidate'
-      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
+        - Invite Packages
       responses:
         '200':
           description: OK
@@ -1019,513 +2338,58 @@ paths:
             application/json:
               schema:
                 type: object
+                description: Response status
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
-                    description: Candidate Report Object which holds information about a candidates assessment
+                    description: Assessment Invite Package Object
                     properties:
-                      candidateAssessmentUuid:
-                        type: string
-                        description: The Unique identifier to a candidate's assessment
-                      status:
-                        type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
-                      startedAt:
-                        type: string
-                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
-                        nullable: true
-                      completedAt:
-                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      score:
+                      brand:
                         type: object
-                        description: If assessment was completed outputs the array of available score data
-                        nullable: true
+                        description: Brand Object
                         properties:
-                          type:
+                          color:
                             type: string
-                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
-                          score:
-                            type: integer
-                            description: Score value
-                          scoreByFormat:
-                            description: Score formatted according to the predefined style
-                            type:
-                              - object
-                              - string
-                              - integer
-                            nullable: true
-                            properties:
-                              groupName:
-                                type: string
-                                description: Skill Name by which Assessment question are grouped
-                              scoreType:
-                                type: integer
-                                description: |-
-                                  Possible values: [1 | 2] 
-                                  Depends on values chosen in Assessment Skill Groups Settings:
-                                   1 - Display score as a percentage
-                                   2 - Display custom text depending on score
-                              result:
-                                type: string
-                                description: |-
-                                  The text selected for scoreType: 2  in Assessment settings. 
-                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
-                              resultWithAdditionalText:
-                                type: string
-                                description: 'Example value: "16/20 PTS - good result!"'
-                              scorePercentage:
-                                type: integer
-                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
-                              scoreSum:
-                                type: integer
-                                description: Sum of scores per group
-                              isManualScore:
-                                type: boolean
-                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
-                              questionGroupUuid:
-                                type: string
-                                description: UUID of Question Group Skill
-                      integrationCandidateCardUrl:
-                        type: string
-                        description: URL to get the candidate info card
-                      timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      tags:
-                        type: array
-                        description: Array of tag names
-                        items:
-                          type: string
-                      smsSent:
-                        type: boolean
-                        description: Was the last candidate invitation SMS successfully sent to candidate?
-              examples:
-                example-1:
-                  value:
-                    success: true
-                    data:
-                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
-                      status: hired
-                      startedAt: '2020-01-13T22:00:00+11:00'
-                      completedAt: '2020-01-13T22:11:49+11:00'
-                      score:
-                        type: TYPE_MANUAL
-                        score: 100
-                        scoreByFormat: 100
-                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: 2 minutes 19 seconds
-                      submitTime: 11 minutes 49 seconds
-      description: Hire the candidate by the candidate's assessment UUID
-      tags:
-        - Candidates
-  '/integration/user-assessments/{candidateAssessmentUuid}/unhire':
-    parameters:
-      - schema:
-          type: string
-        name: candidateAssessmentUuid
-        in: path
-        required: true
-        description: The unique candidate assessment UUID
-    patch:
-      summary: 'PATCH: Unhire candidate'
-      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-unhire'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    description: Candidate Report Object which holds information about a candidates assessment
-                    properties:
-                      candidateAssessmentUuid:
-                        type: string
-                        description: The Unique identifier to a candidate's assessment
-                      status:
-                        type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
-                      startedAt:
-                        type: string
-                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
-                        nullable: true
-                      completedAt:
-                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      score:
-                        type: object
-                        description: If assessment was completed outputs the array of available score data
-                        nullable: true
-                        properties:
-                          type:
+                            description: Hex colour code
+                          title:
                             type: string
-                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
-                          score:
-                            type: integer
-                            description: Score value
-                          scoreByFormat:
-                            description: Score formatted according to the predefined style
-                            type:
-                              - object
-                              - string
-                              - integer
-                            nullable: true
-                            properties:
-                              groupName:
-                                type: string
-                                description: Skill Name by which Assessment question are grouped
-                              scoreType:
-                                type: integer
-                                description: |-
-                                  Possible values: [1 | 2] 
-                                  Depends on values chosen in Assessment Skill Groups Settings:
-                                   1 - Display score as a percentage
-                                   2 - Display custom text depending on score
-                              result:
-                                type: string
-                                description: |-
-                                  The text selected for scoreType: 2  in Assessment settings. 
-                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
-                              resultWithAdditionalText:
-                                type: string
-                                description: 'Example value: "16/20 PTS - good result!"'
-                              scorePercentage:
-                                type: integer
-                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
-                              scoreSum:
-                                type: integer
-                                description: Sum of scores per group
-                              isManualScore:
-                                type: boolean
-                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
-                              questionGroupUuid:
-                                type: string
-                                description: UUID of Question Group Skill
-                      integrationCandidateCardUrl:
-                        type: string
-                        description: URL to get the candidate info card
-                      timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      tags:
-                        type: array
-                        description: Array of tag names
-                        items:
-                          type: string
-                      smsSent:
-                        type: boolean
-                        description: Was the last candidate invitation SMS successfully sent to candidate?
-              examples:
-                example-1:
-                  value:
-                    success: true
-                    data:
-                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
-                      status: completed
-                      startedAt: '2020-01-13T22:00:00+11:00'
-                      completedAt: '2020-01-13T22:11:49+11:00'
-                      score:
-                        type: TYPE_MANUAL
-                        score: 100
-                        scoreByFormat: 100
-                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: 2 minutes 19 seconds
-                      submitTime: 11 minutes 49 seconds
-      tags:
-        - Candidates
-      description: Unhire the candidate by the candidate’s assessment UUID
-  '/integration/user-assessments/{candidateAssessmentUuid}/reset':
-    parameters:
-      - schema:
-          type: string
-        name: candidateAssessmentUuid
-        in: path
-        required: true
-        description: The unique candidate assessment UUID
-    patch:
-      summary: 'PATCH: Reset candidate’s assessment and extend deadline'
-      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-reset'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    description: Candidate Report Object which holds information about a candidates assessment
-                    properties:
-                      candidateAssessmentUuid:
-                        type: string
-                        description: The Unique identifier to a candidate's assessment
-                      status:
-                        type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
-                      startedAt:
-                        type: string
-                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
-                        nullable: true
-                      completedAt:
-                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      score:
-                        type: object
-                        description: If assessment was completed outputs the array of available score data
-                        nullable: true
-                        properties:
-                          type:
+                            description: The brand title (in lower case)
+                          uuid:
                             type: string
-                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
-                          score:
-                            type: integer
-                            description: Score value
-                          scoreByFormat:
-                            description: Score formatted according to the predefined style
-                            type:
-                              - object
-                              - string
-                              - integer
-                            nullable: true
-                            properties:
-                              groupName:
-                                type: string
-                                description: Skill Name by which Assessment question are grouped
-                              scoreType:
-                                type: integer
-                                description: |-
-                                  Possible values: [1 | 2] 
-                                  Depends on values chosen in Assessment Skill Groups Settings:
-                                   1 - Display score as a percentage
-                                   2 - Display custom text depending on score
-                              result:
-                                type: string
-                                description: |-
-                                  The text selected for scoreType: 2  in Assessment settings. 
-                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
-                              resultWithAdditionalText:
-                                type: string
-                                description: 'Example value: "16/20 PTS - good result!"'
-                              scorePercentage:
-                                type: integer
-                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
-                              scoreSum:
-                                type: integer
-                                description: Sum of scores per group
-                              isManualScore:
-                                type: boolean
-                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
-                              questionGroupUuid:
-                                type: string
-                                description: UUID of Question Group Skill
-                      integrationCandidateCardUrl:
-                        type: string
-                        description: URL to get the candidate info card
-                      timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      tags:
-                        type: array
-                        description: Array of tag names
-                        items:
-                          type: string
-                      smsSent:
-                        type: boolean
-                        description: Was the last candidate invitation SMS successfully sent to candidate?
-              examples:
-                example-1:
-                  value:
-                    success: true
-                    data:
-                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
-                      status: invited
-                      startedAt: '2021-03-03T15:44:44+00:00'
-                      completedAt: null
-                      score: null
-                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: null
-                      submitTime: null
-                      smsSent: false
-      tags:
-        - Candidates
-      description: Reset assessment and extend deadline by the candidate's assessment UUID
-  '/integration/user-assessments/{candidateAssessmentUuid}/tags':
-    parameters:
-      - schema:
-          type: string
-        name: candidateAssessmentUuid
-        in: path
-        required: true
-        description: Candidate assessment UUID
-    patch:
-      summary: 'PATCH: Tag candidate'
-      operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-tags'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                  data:
-                    type: object
-                    description: Candidate Report Object which holds information about a candidates assessment
-                    properties:
-                      candidateAssessmentUuid:
-                        type: string
-                        description: The Unique identifier to a candidate's assessment
-                      status:
-                        type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
-                      startedAt:
-                        type: string
-                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
-                        nullable: true
-                      completedAt:
-                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      score:
-                        type: object
-                        description: If assessment was completed outputs the array of available score data
-                        nullable: true
-                        properties:
-                          type:
+                            description: Brand UUID
+                          logoUrl:
                             type: string
-                            description: 'Score type. Possible values: TYPE_MANUAL, TYPE_AI'
-                          score:
-                            type: integer
-                            description: Score value
-                          scoreByFormat:
-                            description: Score formatted according to the predefined style
-                            type:
-                              - object
-                              - string
-                              - integer
-                            nullable: true
-                            properties:
-                              groupName:
-                                type: string
-                                description: Skill Name by which Assessment question are grouped
-                              scoreType:
-                                type: integer
-                                description: |-
-                                  Possible values: [1 | 2] 
-                                  Depends on values chosen in Assessment Skill Groups Settings:
-                                   1 - Display score as a percentage
-                                   2 - Display custom text depending on score
-                              result:
-                                type: string
-                                description: |-
-                                  The text selected for scoreType: 2  in Assessment settings. 
-                                  For scoreType: 1 value of this field equals to the value in scorePercentage field
-                              resultWithAdditionalText:
-                                type: string
-                                description: 'Example value: "16/20 PTS - good result!"'
-                              scorePercentage:
-                                type: integer
-                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
-                              scoreSum:
-                                type: integer
-                                description: Sum of scores per group
-                              isManualScore:
-                                type: boolean
-                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
-                              questionGroupUuid:
-                                type: string
-                                description: UUID of Question Group Skill
-                      integrationCandidateCardUrl:
+                            description: Logo URL
+                      limit:
+                        type: integer
+                        description: Max count of candidates for the package
+                      uuid:
                         type: string
-                        description: URL to get the candidate info card
-                      timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
-                        type: string
-                        nullable: true
-                      tags:
-                        type: array
-                        description: Array of tag names
-                        items:
-                          type: string
-                      smsSent:
-                        type: boolean
-                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                        description: Invite Package UUID
+                      countOfInvitedCandidates:
+                        type: integer
+                        description: Total count of invited candidates
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
-                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
-                      status: completed
-                      startedAt: '2020-01-13T22:00:00+11:00'
-                      completedAt: '2020-01-13T22:11:49+11:00'
-                      score:
-                        type: TYPE_MANUAL
-                        score: 100
-                        scoreByFormat: 100
-                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
-                      timeTaken: 2 minutes 19 seconds
-                      submitTime: 11 minutes 49 seconds
-                      tags:
-                        - tag 1
-                        - tag 2
-                        - tag 3
-                example-2:
-                  value:
-                    success: true
-                    data:
-                      candidateAssessmentUuid: string
-                      status: string
-                      startedAt: string
-                      completedAt: null
-                      score:
-                        type: string
-                        score: string
-                        scoreByFormat: string
-                      integrationCandidateCardUrl: string
-                      timeTaken: null
-                      submitTime: null
-                      tags:
-                        - string
+                      brand:
+                        color: '#008000'
+                        title: company brand 1
+                        uuid: a45f173c-1940-4fdf-ac62-a8426ca7b895
+                        logoUrl: 'null'
+                      limit: 100
+                      uuid: a45f573c-1940-4fdf-ac62-a8426ha7b895
+                      countOfInvitedCandidates: 10
         '400':
           description: |-
             Bad Request
 
-            If more than 10 tags are added with the one request or if the company limit on tags reached.
+            If the assessment package limit is reached
           content:
             application/json:
               schema:
@@ -1533,164 +2397,233 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   errors:
                     type: string
                   msg:
                     type: string
+                    description: Error message
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: false
-                    errors: Cannot tag candidate. Tag limit 10 reached
-                    msg: Cannot tag candidate. Tag limit 10 reached
-                example-2:
-                  value:
-                    success: false
-                    errors: Cannot tag candidate. Company tag limit reached
-                    msg: Cannot tag candidate. Company tag limit reached
-      description: Tag the candidate by the candidate’s assessment UUID
+                    errors: You have reached maximum Candidates in the Assessment Package
+                    msg: You have reached maximum Candidates in the Assessment Package
+          headers: {}
+      operationId: post-integration-assessments-slug-invite-packages
       requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
-              description: |-
-                Array of tag names
-
-                To remove tags pass in request body empty array.
-
-                Tag names are converted to lowercase.
-
-                If the tag name exceeds 150 characters, it will be truncated to 150 characters. 
-
-                Duplicate and empty tag names will be ignored.
+              type: object
+              properties:
+                brand:
+                  type: string
+                  description: Brand UUID
+                  default: null
+                  nullable: true
             examples:
-              example-1:
+              Example 1:
                 value:
-                  - tag 1
-                  - tag 2
-                  - tag 3
-      tags:
-        - Candidates
-  /public/ats-api/token:
+                  brand: null
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
     get:
-      summary: 'GET: Authentication'
+      summary: 'GET: List Assessment Invite Packages'
       tags:
-        - Authentication
+        - Invite packages
       responses:
         '200':
-          description: Ok
+          description: OK
           content:
             application/json:
               schema:
-                description: ''
                 type: object
                 properties:
                   success:
                     type: boolean
+                    description: Response status
+                  data:
+                    type: array
+                    description: Array of Assessment Invite Package Object
+                    items:
+                      type: object
+                      properties:
+                        brand:
+                          type: object
+                          description: Brand Object
+                          properties:
+                            color:
+                              type: string
+                              description: Hex colour code
+                            title:
+                              type: string
+                              description: The brand title (in lower case)
+                            uuid:
+                              type: string
+                              description: Brand UUID
+                            logoUrl:
+                              type: string
+                              description: Logo URL
+                        limit:
+                          type: integer
+                          description: Max count of candidates for the package
+                        uuid:
+                          type: string
+                          description: Invite Package UUID
+                        countOfInvitedCandidates:
+                          type: integer
+                          description: Total count of invited candidates
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      - brand:
+                          color: '#008000'
+                          title: company brand 1
+                          uuid: a45f173c-1940-4fdf-ac62-a8426ca7b895
+                          logoUrl: 'null'
+                        limit: 100
+                        uuid: a45f573c-1940-4fdf-ac62-a8426ha7b895
+                        countOfInvitedCandidates: 10
+      operationId: get-integration-assessments-slug-invite-packages
+      description: Get the list of Invite Packages per assessment.
+  '/integration/assessments/invite-packages/{slug}':
+    parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+        description: Assessment Invite Package UUID
+    patch:
+      summary: 'PATCH: Update Assessment Invite Package'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
                   data:
                     type: object
+                    description: Assessment Invite Package Object
                     properties:
-                      token:
+                      brand:
+                        type: object
+                        description: Brand Object
+                        properties:
+                          color:
+                            type: string
+                            description: Hex colour code
+                          title:
+                            type: string
+                            description: The brand title (in lower case)
+                          uuid:
+                            type: string
+                            description: Brand UUID
+                          logoUrl:
+                            type: string
+                            description: Logo URL
+                      limit:
+                        type: integer
+                        description: Max count of candidates for the package
+                      uuid:
                         type: string
-                        minLength: 1
-                    required:
-                      - token
-                required:
-                  - success
-                  - data
-                x-examples:
-                  example-1:
-                    success: true
-                    data:
-                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
+                        description: Invite Package UUID
+                      countOfInvitedCandidates:
+                        type: integer
+                        description: Total count of invited candidates
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
-                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
-        '400':
-          description: Bad Request
+                      brand:
+                        color: '#008000'
+                        title: company brand 1
+                        uuid: a45f173c-1940-4fdf-ac62-a8426ca7b895
+                        logoUrl: 'null'
+                      limit: 100
+                      uuid: a45f573c-1940-4fdf-ac62-a8426ha7b895
+                      countOfInvitedCandidates: 10
+      operationId: patch-integration-assessments-invite-packages-uuid
+      tags:
+        - Invite packages
+      description: 'With the help of this endpoint, API users can update existing Assessment Invite Package.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand:
+                  type: string
+                  default: null
+                  description: Brand UUID
+                  nullable: true
+            examples:
+              Example 1:
+                value:
+                  brand: a45f173c-1940-4fdf-ac62-a8426ca7b895
+        description: ''
+  /integration/brands:
+    get:
+      summary: 'GET: Brands List'
+      tags:
+        - Invite Packages
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                description: ''
                 type: object
                 properties:
                   success:
                     type: boolean
-                  errors:
-                    type: string
-                    minLength: 1
-                  msg:
-                    type: string
-                    minLength: 1
-                required:
-                  - success
-                  - errors
-                  - msg
-                x-examples:
-                  example-1:
-                    success: false
-                    errors: Provide apiKey/secret please.
-                    msg: Provide apiKey/secret please.
+                    description: Response status
+                  data:
+                    type: array
+                    description: Array of Brand Object
+                    items:
+                      type: object
+                      properties:
+                        color:
+                          type: string
+                          description: Hex colour code
+                        title:
+                          type: string
+                          description: The brand title (in lower case)
+                        uuid:
+                          type: string
+                          description: Brand UUID
+                        logoUrl:
+                          type: string
+                          description: Logo URL
               examples:
-                example-1:
+                Example 1:
                   value:
-                    success: false
-                    errors: Provide apiKey/secret please.
-                    msg: Provide apiKey/secret please.
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  type:
-                    type: string
-                    minLength: 1
-                  title:
-                    type: string
-                    minLength: 1
-                  status:
-                    type: number
-                  detail:
-                    type: string
-                    minLength: 1
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
-                x-examples:
-                  example-1:
-                    type: 'https://tools.ietf.org/html/rfc2616#section-10'
-                    title: An error occurred
-                    status: 401
-                    detail: Unauthorized
-              examples:
-                example-1:
-                  value:
-                    type: 'false'
-                    title: An error occured
-                    status: 401
-                    detail: Unauthorized
-      operationId: get-public-ats-api-token
-      parameters:
-        - schema:
-            type: string
-          in: header
-          name: Authorization
-          description: 'Basic <\Base64 encoded apiKey:secretKey>'
-      description: |-
-        We use tokens to authenticate the API users. Those tokens must be sent on every API request in the Authorization header.
-
-        Token expiration time is 10 minutes. After that time API users must obtain a new token using this endpoint. 
+                    success: true
+                    data:
+                      - color: '#008000'
+                        title: company brand 1
+                        uuid: a45f173c-1940-4fdf-ac62-a8426ca7b895
+                        logoUrl: 'null'
+                      - color: '#008000'
+                        title: company brand 2
+                        uuid: a45f173c-1940-4fdf-ac62-a8426ca7b899
+                        logoUrl: 'null'
+      operationId: get-integration-brands
+      description: Get the list of company brands. Assessment branding feature should be included to the company plan.
 components:
   schemas: {}
   examples: {}
