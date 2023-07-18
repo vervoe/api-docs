@@ -2709,7 +2709,7 @@ paths:
                           uuid: a45f573c-1940-4fdf-ac62-a8426ha7b895
       operationId: get-integration-assessments-slug-invite-packages
       description: Get the list of Invite Packages per assessment.
-  '/integration/assessments/invite-packages/{slug}':
+  '/integration/assessments/invite-packages/{uuid}':
     parameters:
       - schema:
           type: string
