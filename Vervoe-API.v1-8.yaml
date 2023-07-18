@@ -13,7 +13,7 @@ servers:
 paths:
   /public/ats-api/token:
     get:
-      summary: 'GET: Authentication'
+      summary: Authentication
       tags:
         - Authentication
       responses:
@@ -22,29 +22,24 @@ paths:
           content:
             application/json:
               schema:
-                description: ''
                 type: object
+                x-examples:
+                  example-1:
+                    success: true
+                    data:
+                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
                     properties:
                       token:
                         type: string
                         minLength: 1
-                    required:
-                      - token
-                required:
-                  - success
-                  - data
-                x-examples:
-                  example-1:
-                    success: true
-                    data:
-                      token: 7He9ABtS1t6LLhOTyAr3M0uvF1mTa4w2r7koKVx83s373khNVtXp-WK3ufXuYasSc4mpUVwo0X4jcxpB1JBh4YRLN3bppvd_F-POMUCZPWGYIP7jz7h47cnD4Db9hqP2b4JdvO4N8y7bpqz6gcYnz6huSAHNy0ADEGWoqR5PvMpWeZBBrqzi8lHE4rgV4g9KBDp-bUbLybsuy-cvI1ueD4W5YUzd55-nn80fvBhAMDH5r18CVoIiSjY4CfTO7GY-bNUvLE4AMFk27XwyCxhJJ-uY4katIuQwkdB4vfECPYNFbXVPOiUtGL1K5Y5IzPCxKpn9ApfOeVDFSoXYectASVGu4wqcU1AnHtL54hdcYyQJXfX9fBB0owXxuPWLaRJlVQhUUNAGSfp5owbtSxpf0PmeynuDlUdOM2hFbSGXyx5RzycwkTM1LDiIKKgYCHirqswrgX7mBxQXfXo3U3GXobAQsxRwFOPTqvPWrrSXGIjfna1_x4rGb_XvWEtwzmYOX02cZH2Q0A5Vcql0tDRyHBovU7s6Y
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
@@ -54,28 +49,26 @@ paths:
           content:
             application/json:
               schema:
-                description: ''
                 type: object
-                properties:
-                  success:
-                    type: boolean
-                  errors:
-                    type: string
-                    minLength: 1
-                  msg:
-                    type: string
-                    minLength: 1
-                required:
-                  - success
-                  - errors
-                  - msg
                 x-examples:
                   example-1:
                     success: false
                     errors: Provide apiKey/secret please.
                     msg: Provide apiKey/secret please.
+                properties:
+                  success:
+                    type: boolean
+                    description: Response status
+                  errors:
+                    type: string
+                    minLength: 1
+                    description: Error text
+                  msg:
+                    type: string
+                    minLength: 1
+                    description: Message text
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: false
                     errors: Provide apiKey/secret please.
@@ -85,8 +78,13 @@ paths:
           content:
             application/json:
               schema:
-                description: ''
                 type: object
+                x-examples:
+                  example-1:
+                    type: 'https://tools.ietf.org/html/rfc2616#section-10'
+                    title: An error occurred
+                    status: 401
+                    detail: Unauthorized
                 properties:
                   type:
                     type: string
@@ -99,19 +97,8 @@ paths:
                   detail:
                     type: string
                     minLength: 1
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
-                x-examples:
-                  example-1:
-                    type: 'https://tools.ietf.org/html/rfc2616#section-10'
-                    title: An error occurred
-                    status: 401
-                    detail: Unauthorized
               examples:
-                example-1:
+                Example 1:
                   value:
                     type: 'false'
                     title: An error occured
@@ -119,8 +106,7 @@ paths:
                     detail: Unauthorized
       operationId: get-public-ats-api-token
       parameters:
-        - schema:
-            type: string
+        - schema: {}
           in: header
           name: Authorization
           description: 'Basic <\Base64 encoded apiKey:secretKey>'
