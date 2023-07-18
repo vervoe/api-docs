@@ -284,7 +284,7 @@ paths:
         required: true
         description: Assessment slug to which the candidate is invited
     post:
-      summary: Invite candidate to assessment
+      summary: Invite Candidate to Assessment
       responses:
         '200':
           description: OK
@@ -449,7 +449,7 @@ paths:
         required: true
         description: Assessment slug to which the candidate is invited
     post:
-      summary: Invite candidates to complete assessment with reapply time frame
+      summary: Invite Candidates to complete Assessment with Reapply Time Frame
       tags:
         - Candidates
       responses:
@@ -625,7 +625,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Send Invite SMS on assessment to Candidate
+      summary: Send Invite SMS on Assessment to Candidate
       tags:
         - Candidates
       responses:
@@ -872,7 +872,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     get:
-      summary: Get candidate's login link
+      summary: Get Candidate's Login Link
       responses:
         '200':
           description: OK
@@ -911,7 +911,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     get:
-      summary: Get candidate assessment report
+      summary: Get Candidate Assessment Report
       responses:
         '200':
           description: OK
@@ -1253,7 +1253,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Reset candidate’s assessment and extend deadline
+      summary: Reset Candidate’s Assessment and Extend Deadline
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-reset'
       responses:
         '200':
@@ -1393,7 +1393,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     post:
-      summary: 'POST: Reject candidate'
+      summary: 'POST: Reject Candidate'
       operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
       responses:
         '200':
@@ -1461,7 +1461,7 @@ paths:
         This will trigger a Reject email to the candidate IF it has been set up and enabled in the Vervoe UI. 
       deprecated: true
     patch:
-      summary: Reject candidate
+      summary: Reject Candidate
       operationId: patch-integration-user-assessments-candidateAssessmentUuid-reject
       responses:
         '200':
@@ -1655,7 +1655,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Hire candidate
+      summary: Hire Candidate
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-hire'
       responses:
         '200':
@@ -1815,7 +1815,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Unhire candidate
+      summary: Unhire Candidate
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-unhire'
       responses:
         '200':
@@ -1961,7 +1961,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Update hiring data
+      summary: Update Hiring Data
       tags:
         - Candidates
       responses:
@@ -2060,7 +2060,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     patch:
-      summary: Tag candidate
+      summary: Tag Candidate
       operationId: 'patch-https:-api.vervoe.com-api-integration-user-assessments-candidateAssessmentUuid-tags'
       responses:
         '200':
@@ -2252,7 +2252,7 @@ paths:
         - Candidates
   /integration/assessments/folders:
     post:
-      summary: 'POST: Create assessment folder'
+      summary: Create Assessment Folder
       operationId: post-integration-assessments-folders
       responses:
         '201':
@@ -2264,9 +2264,10 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
-                    description: Assessment folder object
+                    description: Assessment Folder Object
                     properties:
                       uuid:
                         type: string
@@ -2279,38 +2280,46 @@ paths:
                         description: Number of assessments in the folder
                         nullable: true
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
-                      uuid: 7c5b2adf-4bb2-4283-8e72-6d9a50952f66
-                      name: My folder
-                      auditionCount: 0
+                      uuid: f83cd542-9a0b-4811-89b7-452c1a995cd1
+                      name: my_folder
+                      auditionCount: 1
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: b2j6oc1wasdzr
+                    description: Response status
+                  errors:
+                    type: string
+                    x-stoplight:
+                      id: uxy88h9769nro
+                    description: Error text
+                  msg:
+                    type: string
+                    x-stoplight:
+                      id: z22wybb3nrl5x
+                    description: Message text
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: false
                     errors: Folder with title My Folder already exists!
                     msg: Folder with title My Folder already exists!
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-              examples:
-                Unauthorized:
+                Example 2:
                   value:
-                    success: false
-                    msg: Invalid credentials.
+                    success: true
+                    errors: Missing parameter 'name'
+                    msg: Missing parameter 'name'
       description: 'With folders you can help organise your assessments and make them easier to manage. Use this API to create a new folder in your Vervoe account. '
       requestBody:
         content:
@@ -2320,7 +2329,7 @@ paths:
               properties:
                 name:
                   type: string
-                  description: Name of folder
+                  description: The assessment folder name
               required:
                 - name
             examples:
@@ -2331,16 +2340,16 @@ paths:
       parameters: []
       tags:
         - Folders
-  'integration/assessments/folders/{UUID}':
+  'integration/assessments/folders/{uuid}':
     parameters:
       - schema:
           type: string
-        name: UUID
+        name: uuid
         in: path
         required: true
-        description: The assessment folder unique ID
+        description: The assessment folder UUID
     patch:
-      summary: 'PATCH: Rename assessment to folder'
+      summary: Rename Assessment Folder
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUuid-move
       responses:
         '200':
@@ -2352,13 +2361,14 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
-                    description: The assessment folder object
+                    description: Assessment Folder Object
                     properties:
                       uuid:
                         type: string
-                        description: The unique ID of the assessment folder
+                        description: Assessment folder UUID
                       name:
                         type: string
                         description: The folder name
@@ -2367,7 +2377,7 @@ paths:
                         description: Number of assessments in the folder
                         nullable: true
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
@@ -2392,7 +2402,7 @@ paths:
       x-internal: false
       tags:
         - Folders
-  '/integration/assessments/{assessmentSlug}/folders/{UUID}/move':
+  '/integration/assessments/{assessmentSlug}/folders/{uuid}/move':
     parameters:
       - schema:
           type: string
@@ -2402,12 +2412,12 @@ paths:
         description: The assessment slug
       - schema:
           type: string
-        name: UUID
+        name: uuid
         in: path
         required: true
-        description: The folder that you wish to move the assessment too
+        description: The assessment folder UUID
     patch:
-      summary: 'PATCH: Move assessment to folder'
+      summary: Move Assessment to Folder
       operationId: patch-integration-assessments-assessmentSlug-folders-folderUUID-move
       responses:
         '200':
@@ -2419,16 +2429,17 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: object
                     properties:
                       auditionFolder:
                         type: object
-                        description: Assessment folder object
+                        description: Assessment Folder Object
                         properties:
                           uuid:
                             type: string
-                            description: Unique ID of the folder
+                            description: Assessment folder UUID
                           name:
                             type: string
                             description: The folder name
@@ -2446,7 +2457,7 @@ paths:
                         type: string
                         description: The assessment slug
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
@@ -2462,16 +2473,16 @@ paths:
         - Folders
       description: Move an assessment from one folder to another.
       parameters: []
-  '/integration/assessments/folders/{UUID}':
+  '/integration/assessments/folders/{uuid}':
     parameters:
       - schema:
           type: string
-        name: UUID
+        name: uuid
         in: path
         required: true
-        description: The assessment folder unique ID
+        description: The assessment folder UUID
     delete:
-      summary: 'DELETE: Delete assessment folder'
+      summary: Delete Assessment Folder
       operationId: delete-integration-assessments-folders-folderUuid
       responses:
         '204':
@@ -2490,7 +2501,7 @@ paths:
         required: true
         description: The assessment slug
     delete:
-      summary: 'DELETE: Remove assessment from current folder'
+      summary: Remove Assessment from Folder
       operationId: delete-integration-assessments-assessmentSlug-folders
       responses:
         '200':
@@ -2501,7 +2512,8 @@ paths:
                 type: object
                 properties:
                   success:
-                    type: number
+                    type: boolean
+                    description: Response status
                   data:
                     type: object
                     properties:
@@ -2518,7 +2530,7 @@ paths:
                         type: string
                         description: The assessment slug
               examples:
-                example-1:
+                Example 1:
                   value:
                     success: true
                     data:
@@ -2647,7 +2659,7 @@ paths:
         description: ''
       description: 'With the help of this endpoint, API users can create Assessment Invite Package.'
     get:
-      summary: Get list of Assessment Invite Packages
+      summary: Get List of Assessment Invite Packages
       tags:
         - Invite packages
       responses:
