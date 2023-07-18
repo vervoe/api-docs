@@ -440,6 +440,182 @@ paths:
       tags:
         - Candidates
       parameters: []
+  '/integration/assessments/{slug}/invite-with-reapply-timeframe':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+        description: Assessment slug to which the candidate is invited
+    post:
+      summary: Invite candidates to complete assessment with reapply time frame
+      tags:
+        - Candidates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: nc850ygnkh0el
+                    description: Response status
+                  data:
+                    type: object
+                    x-stoplight:
+                      id: zwyyu0czofni5
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        x-stoplight:
+                          id: vmqi2filhte42
+                        description: The candidate assessment UUID. Can be used for obtaining a report for completed assessment
+                      candidateUrl:
+                        type: string
+                        x-stoplight:
+                          id: md8m2n6cid7qm
+                        description: The URL by which candidate can complete the assessment
+                      action:
+                        type: string
+                        x-stoplight:
+                          id: kb3osk7q36d2j
+                        description: |-
+                          The action that was taken. Available values:
+
+                          INVITED - the candidate is invited to the assessment
+
+                          REAPPLIED - the candidate is reapplied to the assessment
+
+                          EXISTED - Report with candidates results will be sent to the provided webhook. Invitation email and sms will not be sent if assessment is completed or expired
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                      candidateUrl: 'http://example.com/login?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJmdWxsTmFtZSI6IkZpcnN0TkFNRSBMYXN0bmFtZSIsImVtYWlsIjoidml0YWxpeSs2MDAxMEB2ZXJ2b2UuY29tIiwiaWF0IjoxNTc4OTExMDQ5LCJleHAiOjE1NzkyNTY2NDksImlzRGVtbyI6ZmFsc2UsIm9wcG9ydHVuaXR5U2x1ZyI6ZmFsc2V9.YgEZ3YIzUvD9l4gS9b6DO1oWvIPiozoUL7dZlFJtE4Y8aRwk4dMU9yHOKYhtIbUS572u61xzKMaRwsVPe_N0JV4z5aM1ISvqbW9RH-S1WehhsOdauKBw_qwESHV7CVA-Kh8ondZPAqkM-uxKbwiQFMAwaKB4IgwJ_gnL9k5i7I0&hashCode=d05e35bf-54d9-4ec6-9d13-c73b20e8ef181578911049'
+                      action: INVITED
+      operationId: post-integration-assessments-slug-invite-with-reapply-timeframe
+      description: |-
+        Invites the candidate to complete the assessment by assessment slug with reapply time frame. 
+
+        One of the following action will be taken on the candidate depending if candidate has already completed the assessment and how many days passed since completion compared with the given timeframe:
+
+        1. If candidate hasn’t been invited to this assessment → this candidate will be invited to the assessment.
+
+        2. If candidate has been already invited to this assessment:
+
+            a. (If candidate has already completed the assessment) AND (there were more days passed since completion, than in the given timeframe) → this candidate will be reapplied to the assessment.
+               
+            b. Else → candidate’s status will not change and report with results will be sent to the provided webhook.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                candidateEmail:
+                  type: string
+                  x-stoplight:
+                    id: dbie0hj63bl5u
+                  description: The candidate’s email address
+                candidateFirstName:
+                  type: string
+                  x-stoplight:
+                    id: ta5wqdg39u85z
+                  description: Candidate's first name
+                candidateLastName:
+                  type: string
+                  x-stoplight:
+                    id: f5tjlxcfpumtn
+                  description: The candidate’s last name
+                sendInvitationEmail:
+                  type: boolean
+                  x-stoplight:
+                    id: solizt9ili939
+                  description: |-
+                    The text and company logo in the emails are customizable from within the Vervoe account
+
+                    True by default
+                redirectCandidateUrl:
+                  type: string
+                  x-stoplight:
+                    id: je0xhukv93gp2
+                  description: The URL to which candidate will be redirected on successful assessment completion
+                candidateAssessmentUuid:
+                  type: string
+                  x-stoplight:
+                    id: iu3j5kj2anl8y
+                  description: The optional candidate assessment UUID can be used to obtain invitation url for already invited candidate
+                reapplyTimeFrame:
+                  type: integer
+                  x-stoplight:
+                    id: i7ym4rrg1zcrm
+                  description: |-
+                    180 by default
+
+                    The optional reapply time frame. This is the time period, measured in days. It’s calculated from the day candidate completed the interview till the current day
+                enableFeedback:
+                  type: boolean
+                  x-stoplight:
+                    id: 837xd7mcumvjh
+                  description: |-
+                    The optional enable feedback can be used to show candidate feedback form after assessment is completed
+
+                    False by default
+                sendInvitationSms:
+                  type: boolean
+                  x-stoplight:
+                    id: vgeqdpkaxhu2m
+                  description: 'False by default. If current plan doesn''t allow sending invitation SMS to candidate, candidatePhone is not set, the SMS limit is reached, not valid candidate phone is used a BadRequest Exception is triggered'
+                candidatePhone:
+                  type: string
+                  x-stoplight:
+                    id: b89n4bksf1nvn
+                  description: |-
+                    The candidate’s mobile number
+
+                    If sendInvitationSms is true, candidatePhone is required
+
+                    SMS will be sent to this number
+                eeocEnabled:
+                  type: boolean
+                  x-stoplight:
+                    id: 8tzqcjjujd8h1
+                  description: |-
+                    Determines whether the candidate will see EEOC survey after the assessment
+
+                    False by default
+                assessmentInvitePackageUuid:
+                  type: string
+                  x-stoplight:
+                    id: vlytju75jia19
+                  description: |-
+                    Null by default
+
+                    Only for API users that have enabled the assessmentInvitePackages on the company level. For inviting candidates, send the assessment invite package UUID. Otherwise, the Vervoe system will respond with an error
+                  nullable: true
+              required:
+                - candidateEmail
+                - candidateFirstName
+            examples:
+              Example 1:
+                value:
+                  candidateEmail: candidate@example.com
+                  candidateFirstName: Firstname
+                  candidateLastName: Lastname
+                  sendInvitationEmail: true
+                  redirectCandidateUrl: 'https://api-client-host.com/candidate-landing'
+                  candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                  reapplyTimeFrame: 180
+                  enableFeedback: true
+                  eeocEnabled: false
+                  assessmentInvitePackageUuid: 'null'
   '/integration/user-assessments/{candidateAssessmentUuid}/send-invite-sms':
     parameters:
       - schema:
