@@ -301,10 +301,10 @@ paths:
                     properties:
                       candidateAssessmentUuid:
                         type: string
-                        description: The candidate’s assessment ID. Can be used for obtaining a report for completed assessment.
+                        description: The candidate’s assessment UUID. Can be used for obtaining a report for completed assessment
                       candidateUrl:
                         type: string
-                        description: The url by which candidate can complete the assessment.
+                        description: The URL by which candidate can complete the assessment
               examples:
                 '200':
                   value:
@@ -313,7 +313,10 @@ paths:
                       candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
                       candidateUrl: 'http://example.com/login?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJmdWxsTmFtZSI6IkZpcnN0TkFNRSBMYXN0bmFtZSIsImVtYWlsIjoidml0YWxpeSs2MDAxMEB2ZXJ2b2UuY29tIiwiaWF0IjoxNTc4OTExMDQ5LCJleHAiOjE1NzkyNTY2NDksImlzRGVtbyI6ZmFsc2UsIm9wcG9ydHVuaXR5U2x1ZyI6ZmFsc2V9.YgEZ3YIzUvD9l4gS9b6DO1oWvIPiozoUL7dZlFJtE4Y8aRwk4dMU9yHOKYhtIbUS572u61xzKMaRwsVPe_N0JV4z5aM1ISvqbW9RH-S1WehhsOdauKBw_qwESHV7CVA-Kh8ondZPAqkM-uxKbwiQFMAwaKB4IgwJ_gnL9k5i7I0&hashCode=d05e35bf-54d9-4ec6-9d13-c73b20e8ef181578911049'
         '400':
-          description: Bad Request
+          description: |-
+            Bad Request
+
+            In case the candidate already was invited to assessment, system returns 400 Bad request response
           content:
             application/json:
               schema:
@@ -321,23 +324,27 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   errors:
                     type: string
+                    description: Error text
                   data:
                     type: object
                     properties:
                       candidateAssessmentUuid:
                         type: string
+                        description: The candidate’s assessment UUID. Can be used for obtaining a report for completed assessment
                       candidateUrl:
                         type: string
+                        description: The URL by which candidate can complete the assessment
               examples:
                 400 Bad request - candidate already invited:
                   value:
                     success: false
                     errors: The invitation has been already sent.
                     data:
-                      candidateAssessmentUuid: <uuid>
-                      candidateUrl: <URL to the assessment>
+                      candidateAssessmentUuid: cbb3e136-ef30-4452-955b-1835a79caa65
+                      candidateUrl: '<http://example.com/login?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJmdWxsTmFtZSI6IkZpcnN0TkFNRSBMYXN0bmFtZSIsImVtYWlsIjoidml0YWxpeSs2MDAxMEB2ZXJ2b2UuY29tIiwiaWF0IjoxNTc4OTExMDQ5LCJleHAiOjE1NzkyNTY2NDksImlzRGVtbyI6ZmFsc2UsIm9wcG9ydHVuaXR5U2x1ZyI6ZmFsc2V9.YgEZ3YIzUvD9l4gS9b6DO1oWvIPiozoUL7dZlFJtE4Y8aRwk4dMU9yHOKYhtIbUS572u61xzKMaRwsVPe_N0JV4z5aM1ISvqbW9RH-S1WehhsOdauKBw_qwESHV7CVA-Kh8ondZPAqkM-uxKbwiQFMAwaKB4IgwJ_gnL9k5i7I0&hashCode=d05e35bf-54d9-4ec6-9d13-c73b20e8ef181578911049'
       operationId: post-assessments-slug-invite
       description: Invites the candidate to complete the assessment by assessment slug.
       requestBody:
@@ -357,17 +364,22 @@ paths:
                   description: The candidate’s last name
                 sendInvitationEmail:
                   type: boolean
-                  description: 'True by default. The text and company logo in the emails are customizable from within the Vervoe account. '
+                  description: |-
+                    The text and company logo in the emails are customizable from within the Vervoe account
+
+                    True by default
                 redirectCandidateUrl:
                   type: string
-                  description: The url to which candidate will be redirected on successful assessment completion.
+                  description: The URL to which candidate will be redirected on successful assessment completion
                 candidateAssessmentUuid:
                   type: string
-                  description: The optional candidate assessment UUID can be used to obtain invitation url for already invited candidate.
+                  description: The optional candidate assessment UUID can be used to obtain invitation url for already invited candidate
                 reapply:
                   type: boolean
                   description: |-
-                    False by default. The optional reapply can be used to allow candidates to reapply and there is a need to take the same assessment.
+                    The optional reapply can be used to allow candidates to reapply and there is a need to take the same assessment
+
+                    False by default
 
                     if candidateAssessmentUuid doesn’t exist - always create new userAudition
 
@@ -378,21 +390,42 @@ paths:
                     if userAudition  “active“ = 1 - create new userAudition
                 enableFeedback:
                   type: boolean
-                  description: False by default. The optional enable feedback can be used to show candidate feedback form after assessment is completed
+                  description: |-
+                    The optional enable feedback can be used to show candidate feedback form after assessment is completed
+
+                    False by default
                 sendInvitationSms:
                   type: boolean
-                  description: 'False by default. If current plan doesn''t allow sending invitation SMS to candidate, candidatePhone is not set, the SMS limit is reached, not valid candidate phone is used  a BadRequest Exception is triggered.'
+                  description: 'False by default. If current plan doesn''t allow sending invitation SMS to candidate, candidatePhone is not set, the SMS limit is reached, not valid candidate phone is used  a BadRequest Exception is triggered'
                 candidatePhone:
                   type: string
-                  description: 'The candidate’s mobile number. If sendInvitationSms is true, candidatePhone is required. SMS will be sent to this number.'
+                  description: |-
+                    The candidate’s mobile number
+
+                    If sendInvitationSms is true, candidatePhone is required
+
+                    SMS will be sent to this number
                 eeocEnabled:
                   type: boolean
-                  description: Determines whether the candidate will see  EEOC survey after the assessment. False by default.
+                  description: |-
+                    Determines whether the candidate will see  EEOC survey after the assessment
+
+                    False by default
+                assessmentInvitePackageUuid:
+                  type: string
+                  x-stoplight:
+                    id: 2ch8n7kd14vpb
+                  description: |-
+                    Null by default
+
+                    Only for API users that have enabled the assessmentInvitePackages on the company level.
+                    For inviting candidates, send the assessment invite package UUID. Otherwise, the Vervoe system will respond with an error
+                  nullable: true
               required:
                 - candidateEmail
                 - candidateFirstName
             examples:
-              example-1:
+              Example 1:
                 value:
                   candidateEmail: candidate@example.com
                   candidateFirstName: Firstname
@@ -403,6 +436,7 @@ paths:
                   enableFeedback: true
                   reapply: false
                   eeocEnabled: false
+                  assessmentInvitePackageUuid: 'null'
       tags:
         - Candidates
       parameters: []
@@ -1220,7 +1254,7 @@ paths:
                         nullable: true
                       integrationCandidateUrl:
                         type: string
-                        description: Url tot he candidate information card containing score and detailed answers.
+                        description: URL to get the candidate info card
                       timeTaken:
                         type: string
                         description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
@@ -1434,6 +1468,8 @@ paths:
                       anticheatingGeolocationDetected: true
                       plagiarismDetected: true
       description: Reject the candidate by the candidate’s assessment UUID. If rejecting already rejected candidate “Bad Request 400” error is not triggered
+      tags:
+        - Candidates
   '/integration/user-assessments/{candidateAssessmentUuid}/hire':
     parameters:
       - schema:
