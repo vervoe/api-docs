@@ -259,7 +259,6 @@ paths:
                           name: my_folder
                           uuid: f83cd542-9a0b-4811-89b7-452c1a995cd1
                           auditionsCount: 1
-                      - ...
           headers: {}
       operationId: get-assessments
       description: Returns a paginated list of private assessments available for the current API user.
