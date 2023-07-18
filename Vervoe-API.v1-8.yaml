@@ -183,7 +183,7 @@ paths:
         - API Health
   /integration/assessments:
     get:
-      summary: 'GET: List of assessments'
+      summary: Get List of Assessments
       tags:
         - Assessments
       responses:
@@ -196,54 +196,55 @@ paths:
                 properties:
                   count:
                     type: number
-                    description: Count of private assessments for currentPage.
+                    description: Count of private assessments for currentPage
                   total:
                     type: number
-                    description: 'Total count of private assessments. '
+                    description: Total count of private assessments
                   hasMorePages:
                     type: boolean
-                    description: If current page is last page from result outputs false else true.
+                    description: If current page is last page from result outputs false else true
                   currentPage:
                     type: number
-                    description: Current page offset. Must be > 0.
+                    description: Current page offset. Must be > 0
                   items:
                     type: array
-                    description: 'Array of private assessments. '
+                    description: Array of private assessments
                     items:
                       type: object
                       properties:
                         name:
                           type: string
-                          description: The assessment name.
+                          description: The assessment name
                         description:
                           type: string
-                          description: The assessment description.
+                          description: The assessment description
                         slug:
                           type: string
-                          description: Unique identifier for the assessment.
+                          description: Unique identifier for the assessment
                         questionsCount:
                           type: number
-                          description: Count of the number of questions in the assessment excluding the optional final feedback for employer question.
+                          description: Number of questions in assessment
                         skills:
                           type: array
+                          description: Skills which are tested with current assessment
                           items:
                             type: string
                         auditionFolder:
                           type: object
-                          description: Assessment Folder Object
+                          description: The folder that contains the current assessment. Can be null if assessment doesn’t belong to any folder
                           nullable: true
                           properties:
-                            name:
-                              type: string
-                              description: The assessment folder name
                             uuid:
                               type: string
                               description: Assessment folder UUID
+                            name:
+                              type: string
+                              description: The assessment folder name
                             auditionCount:
                               type: string
                               description: Number of assessments in folder
               examples:
-                example-1:
+                Example 1:
                   value:
                     count: 2
                     total: 2
