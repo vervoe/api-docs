@@ -137,7 +137,7 @@ paths:
         required: true
         description: Your API key
     get:
-      summary: 'GET: Health Check monitoring on Vervoe API'
+      summary: Health Check Monitoring on Vervoe API
       responses:
         '200':
           description: OK
@@ -148,18 +148,16 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   data:
                     type: string
-                required:
-                  - success
-                  - data
               examples:
                 'status: 200':
                   value:
                     success: true
                     data: ok
-        '503':
-          description: Service Unavailable
+        '403':
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -167,16 +165,21 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    description: Response status
                   errors:
                     type: string
-                required:
-                  - success
-                  - errors
+                    description: Error text
+                  msg:
+                    type: string
+                    x-stoplight:
+                      id: snllhedpnudu5
+                    description: Message text
               examples:
-                'status: 503 Service Unavailable':
+                'status: 503 Forbidden':
                   value:
                     success: false
-                    errors: Service Unavailable
+                    errors: Access denied
+                    msg: Access denied
       operationId: get-public-apihealthcheck-apiKey
       description: Used for monitoring Vervoe API Health Status.
       tags:
