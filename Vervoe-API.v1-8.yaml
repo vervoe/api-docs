@@ -2532,7 +2532,7 @@ paths:
       tags:
         - Folders
       parameters: []
-  /integration/assessments/invite-packages:
+  '/integration/assessments/{slug}/invite-packages':
     parameters:
       - schema:
           type: string
