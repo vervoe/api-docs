@@ -1649,27 +1649,18 @@ paths:
                       candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
                       status: rejected
                       startedAt: '2021-03-03T15:44:44+00:00'
-                      completedAt: string
-                      score:
-                        type: string
-                        score: 0
-                        scoreByFormat:
-                          groupName: string
-                          scoreType: 0
-                          result: string
-                          scorePercentage: 0
-                          isManualScore: true
-                          questionGroupUuid: string
-                      integrationCandidateCardUrl: string
-                      timeTaken: string
-                      submitTime: string
+                      completedAt: 'null'
+                      score: 'null'
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
                       tags:
-                        - string
-                      smsSent: true
-                      candidateEmail: string
-                      assessmentSlug: string
-                      anticheatingGeolocationDetected: true
-                      plagiarismDetected: true
+                        - tag 1
+                      smsSent: false
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
       description: Reject the candidate by the candidate’s assessment UUID. If rejecting already rejected candidate “Bad Request 400” error is not triggered
       tags:
         - Candidates
