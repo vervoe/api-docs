@@ -73,37 +73,6 @@ paths:
                     success: false
                     errors: Provide apiKey/secret please.
                     msg: Provide apiKey/secret please.
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                x-examples:
-                  example-1:
-                    type: 'https://tools.ietf.org/html/rfc2616#section-10'
-                    title: An error occurred
-                    status: 401
-                    detail: Unauthorized
-                properties:
-                  type:
-                    type: string
-                    minLength: 1
-                  title:
-                    type: string
-                    minLength: 1
-                  status:
-                    type: number
-                  detail:
-                    type: string
-                    minLength: 1
-              examples:
-                Example 1:
-                  value:
-                    type: 'false'
-                    title: An error occured
-                    status: 401
-                    detail: Unauthorized
       operationId: get-public-ats-api-token
       parameters:
         - schema: {}
