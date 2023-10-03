@@ -1111,11 +1111,11 @@ paths:
                               description: 'Assessment completion status. Possible values: complete, incomplete, expired, in_progress, hired, rejected'
                             startedAt:
                               type: string
-                              description: Time at which the assessment was started or null if it wasn't started yet
+                              description: Time at which the assessment was started or `null` if it wasn't started yet
                               nullable: true
                             completedAt:
                               type: string
-                              description: Time at which the assessment was completed or null if it wasn't completed yet
+                              description: Time at which the assessment was completed or `null` if it wasn't completed yet
                               nullable: true
                             score:
                               type: object
@@ -1163,11 +1163,11 @@ paths:
                               description: URL to get the candidate info card
                             timeTaken:
                               type: string
-                              description: Time from when the assessment was started until it was submitted. Null if it was not submitted yet
+                              description: Time from when the assessment was started until it was submitted. `Null` if it was not submitted yet
                               nullable: true
                             submitTime:
                               type: string
-                              description: The sum of time the candidate spent on each question or null if assessment wasn't completed yet
+                              description: The sum of time the candidate spent on each question or `null` if assessment wasn't completed yet
                               nullable: true
                             tags:
                               type: array
@@ -1241,7 +1241,7 @@ paths:
             type: integer
           in: query
           name: page
-          description: Must be greater than 0.
+          description: Must be greater than 0
           required: true
         - schema:
             type: string
@@ -1271,6 +1271,246 @@ paths:
       tags:
         - Candidates
     parameters: []
+  '/integration/assessments/{slug}/candidates?page=1':
+    parameters:
+      - schema:
+          type: string
+        name: slug
+        in: path
+        required: true
+        description: Assessment slug
+    get:
+      summary: Get List of Candidates per Assessment
+      tags:
+        - Candidates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: uipp67q7spdjr
+                    description: Response status
+                  data:
+                    type: object
+                    x-stoplight:
+                      id: tfpw7zb6ll7ly
+                    properties:
+                      currentPage:
+                        type: integer
+                        x-stoplight:
+                          id: uqpvwogww1nu2
+                        description: Current page offset
+                      total:
+                        type: integer
+                        x-stoplight:
+                          id: 6fnnxmvah4u6f
+                        description: Total count of all results
+                      count:
+                        type: integer
+                        x-stoplight:
+                          id: xfptzsm4wp7p9
+                        description: Count of results for the currentPage
+                      hasMorePages:
+                        type: boolean
+                        x-stoplight:
+                          id: 3m5ruo1jf6fg3
+                        description: If current page is last page from result outputs `false` else `true`
+                      items:
+                        type: array
+                        x-stoplight:
+                          id: 3g0jpoy0a0ksb
+                        description: Array of Candidate Details Object
+                        items:
+                          x-stoplight:
+                            id: nzg8gz4x0j08o
+                          type: object
+                          properties:
+                            fullName:
+                              type: string
+                              x-stoplight:
+                                id: 6uieuis25v4qm
+                              description: The candidate’s full name
+                            email:
+                              type: string
+                              x-stoplight:
+                                id: 7klin91g43vg4
+                              description: The candidate’s email address
+                            phone:
+                              type: string
+                              x-stoplight:
+                                id: tyfxkun6hk7ih
+                              description: The candidate’s phone
+                            source:
+                              type: string
+                              x-stoplight:
+                                id: 65wq8fz88pz8n
+                              description: The candidate’s source
+                            status:
+                              type: string
+                              x-stoplight:
+                                id: tjeanhfc3jhjm
+                              description: |-
+                                Candidate’s status.
+                                Possible values: More time Scored, Applied, Email read, Invited, Rejected, Expired, In progress, AI scored, Hired
+                            statusChangedAt:
+                              type: string
+                              x-stoplight:
+                                id: lkyh4axl2mylm
+                              description: Time at which the candidate’s status was changed
+                              nullable: true
+                            rank:
+                              type: integer
+                              x-stoplight:
+                                id: gxu8swt2u4xrv
+                              description: The candidate’s rank
+                              nullable: true
+                            predictedOverallScore:
+                              type: string
+                              x-stoplight:
+                                id: 9j2uez605to69
+                              description: The candidate’s predicted score
+                            predictedSkillScores:
+                              type: string
+                              x-stoplight:
+                                id: m12x19xc1iyqd
+                              description: The candidate’s predicted score by skills
+                            actualOverallScore:
+                              type: string
+                              x-stoplight:
+                                id: 0ykyyl9qzxajh
+                              description: The candidate’s score
+                            actualSkillScores:
+                              type: string
+                              x-stoplight:
+                                id: dfrsj9179worg
+                              description: The candidate’s score by skills
+                            startedAt:
+                              type: string
+                              x-stoplight:
+                                id: c60rc9u0enhxk
+                              description: 'Time at which the assessment was started or `null`, if it wasn’t started yet'
+                              nullable: true
+                            timeTaken:
+                              type: integer
+                              x-stoplight:
+                                id: jon83ekh9nm6i
+                              description: 'The sum of time in seconds the candidate spent on each question  or `null`, if assessment wasn’t completed yet'
+                              nullable: true
+                            submitTime:
+                              type: integer
+                              x-stoplight:
+                                id: ssklyhs8kvqf4
+                              description: 'Time in seconds from start to submit assessment or `null`, if it wasn’t completed yet'
+                              nullable: true
+                            tags:
+                              type: array
+                              x-stoplight:
+                                id: 1wbk4w8pvk2ct
+                              description: Array of tag names
+                              items:
+                                x-stoplight:
+                                  id: moof0vb3ccksu
+                                type: string
+                            questions:
+                              type: array
+                              x-stoplight:
+                                id: 82uai5k87lv8d
+                              description: Array of Candidate Details Question Object
+                              items:
+                                x-stoplight:
+                                  id: ifj8kkw1oal08
+                                type: object
+                                properties:
+                                  description:
+                                    type: string
+                                    x-stoplight:
+                                      id: xbph0ztmcso6e
+                                    description: The question’s description
+                                  answer:
+                                    type: string
+                                    x-stoplight:
+                                      id: 07l55i6c79yc7
+                                    description: The candidate’s answer
+                                  score:
+                                    x-stoplight:
+                                      id: vstm3oy3mpe8a
+                                    description: 'The score for the answer or `null`, if answer doesn’t have score.'
+                                    type: number
+                                    format: float
+                                    nullable: true
+                            plagiarismDetected:
+                              type: boolean
+                              x-stoplight:
+                                id: owatjcorrhnbf
+                              description: |-
+                                If geolocation cheating detected.
+                                `null`,  if the `GEO_IP_FRAUD_DETECTION` feature is not enabled
+                              nullable: true
+                            geoLocationDetection:
+                              type: boolean
+                              x-stoplight:
+                                id: b0x6ct8ksoi9r
+                              description: |-
+                                If plagiarism detected.
+                                `null`,  if the `PLAGIARISM_DETECTION` feature is not enabled
+                              nullable: true
+                            locations:
+                              type: array
+                              x-stoplight:
+                                id: h403pzacbrals
+                              description: Fraud detected cities
+                              items: {}
+              examples:
+                Example - 1:
+                  value:
+                    success: true
+                    data:
+                      currentPage: 2
+                      total: 11
+                      count: 1
+                      hasMorePages: false
+                      items:
+                        - fullName: Full name
+                          email: candidate@vervoe.com
+                          phone: '380971111111'
+                          source: Email Invitation
+                          status: Scored
+                          statusChangedAt: '2023-05-30T13:51:42+00:00'
+                          rank: 1
+                          predictedOverallScore: 25%
+                          predictedSkillScores: 'SKILL: 25'
+                          actualOverallScore: 35%
+                          actualSkillScores: 'SKILL: 35'
+                          startedAt: '2023-05-22T13:20:42+00:00'
+                          timeTaken: 17
+                          submitTime: 29
+                          tags:
+                            - tag 1
+                          questions:
+                            - description: Question 1
+                              answer: Answer 1
+                              score: 5
+                          plagiarismDetected: false
+                          geoLocationDetection: false
+                          locations:
+                            - null
+      operationId: get-integration-assessments-slug-candidates?page=1
+      x-stoplight:
+        id: h1tepi67pk0p3
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          description: Must be greater than 0
+          name: page
+          required: true
+      description: Get paginated list of candidates per assessment.
   '/integration/user-assessments/{candidateAssessmentUuid}/reset':
     parameters:
       - schema:
@@ -1420,7 +1660,7 @@ paths:
         required: true
         description: Candidate assessment UUID
     post:
-      summary: 'POST: Reject Candidate'
+      summary: '[Deprecated] Reject Candidate'
       operationId: post-integration-user-assessments-candidateAssessmentUuid-reject
       responses:
         '200':
