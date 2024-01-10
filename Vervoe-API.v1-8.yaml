@@ -1904,6 +1904,191 @@ paths:
       description: Reject the candidate by the candidate’s assessment UUID. If rejecting already rejected candidate “Bad Request 400” error is not triggered
       tags:
         - Candidates
+  '/integration/user-assessments/{candidateAssessmentUuid}/unreject':
+    patch:
+      summary: UnReject Candidate
+      tags:
+        - Candidates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    x-stoplight:
+                      id: e9zix4946e6ec
+                    description: "\t\nResponse status"
+                  data:
+                    type: object
+                    x-stoplight:
+                      id: frsrpkk2wt9qe
+                    description: Candidate Report Object which holds information about a candidates assessment
+                    properties:
+                      candidateAssessmentUuid:
+                        type: string
+                        x-stoplight:
+                          id: gd9a4vskets52
+                        description: Candidate assessment UUID. Unique identifier for the candidate assessment
+                      status:
+                        type: string
+                        x-stoplight:
+                          id: aurj3uvzat9e7
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                      startedAt:
+                        type: string
+                        x-stoplight:
+                          id: e57z6t439j8bh
+                        description: 'Time at which the assessment was started or null, if it wasn’t started yet'
+                        nullable: true
+                      completedAt:
+                        type: string
+                        x-stoplight:
+                          id: j1wra8z7xgb89
+                        description: 'Time at which the assessment was completed or null, if it wasn’t completed yet'
+                        nullable: true
+                      score:
+                        type: object
+                        x-stoplight:
+                          id: lxq86z5jqclv8
+                        description: If assessment was completed outputs the array of available score data
+                        nullable: true
+                        properties:
+                          type:
+                            type: string
+                            x-stoplight:
+                              id: kqu3up4zzr904
+                            description: 'Score type. Possible values: TYPE_MANUAL TYPE_AI'
+                          score:
+                            type: integer
+                            x-stoplight:
+                              id: l4pjt3llthgsb
+                            description: Score value
+                          scoreByFormat:
+                            type:
+                              - object
+                              - integer
+                              - string
+                            x-stoplight:
+                              id: qhqhtzp6x9qvz
+                            description: Score formatted according to the predefined style
+                            nullable: true
+                            properties:
+                              groupName:
+                                type: string
+                                x-stoplight:
+                                  id: mvg0852qs9bre
+                                description: Skill Name by which Assessment question are grouped
+                              scoreType:
+                                type: integer
+                                x-stoplight:
+                                  id: o8rpvrdgmczta
+                                description: 'Possible values: [1] 1 - Display score as a percentage'
+                              result:
+                                type: string
+                                x-stoplight:
+                                  id: o07wwp33hti1w
+                                description: For scoreType 1 value of this field equals to the value in scorePercentage field
+                              scorePercentage:
+                                type: integer
+                                x-stoplight:
+                                  id: ylsb5cmm6ooxx
+                                description: 'Score percentage calculated per group by this formula: scorePercentage = scoresSum / scoresCount * 10'
+                              isManualScore:
+                                type: boolean
+                                x-stoplight:
+                                  id: d1krioel8mtxg
+                                description: 'True if all scores in group are determined by Employer (manual or autograding), false otherwise'
+                              ' questionGroupUuid':
+                                type: string
+                                x-stoplight:
+                                  id: a647k1do81n1r
+                                description: UUID of Question Group Skill
+                      integrationCandidateCardUrl:
+                        type: string
+                        x-stoplight:
+                          id: 6eoyl4h1oc7sm
+                        description: URL to get the candidate info card
+                      timeTaken:
+                        type: string
+                        x-stoplight:
+                          id: g33mbdz9rksqf
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
+                        nullable: true
+                      submitTime:
+                        type: string
+                        x-stoplight:
+                          id: t6pubhw31yi0c
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
+                        nullable: true
+                      tags:
+                        type: array
+                        x-stoplight:
+                          id: no1v73wpltz71
+                        description: Array of tag names
+                        items:
+                          x-stoplight:
+                            id: uyzstetxjujvi
+                          type: string
+                      smsSent:
+                        type: boolean
+                        x-stoplight:
+                          id: lv3n1pzli35ru
+                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                      candidateEmail:
+                        type: string
+                        x-stoplight:
+                          id: 4d1fr14muohdj
+                        description: The candidate’s email address
+                      assessmentSlug:
+                        type: string
+                        x-stoplight:
+                          id: cshf6b18hxwfl
+                        description: The assessment slug
+                      anticheatingGeolocationDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: owa5r9sneq9rr
+                        description: If geolocation cheating detected
+                      plagiarismDetected:
+                        type: boolean
+                        x-stoplight:
+                          id: cusryf5my5kvc
+                        description: If plagiarism detected
+              examples:
+                Example 1:
+                  value:
+                    success: true
+                    data:
+                      candidateAssessmentUuid: da8e6303-a165-4215-9b1a-113ee4cc28b6
+                      status: incomplete
+                      startedAt: '2021-03-03T15:44:44+00:00'
+                      completedAt: 'null'
+                      score: 'null'
+                      integrationCandidateCardUrl: 'https://company.vervoe.com/integration_candidate_card'
+                      timeTaken: 'null'
+                      submitTime: 'null'
+                      tags:
+                        - tag 1
+                      smsSent: false
+                      candidateEmail: candidate@example.com
+                      assessmentSlug: assessment-slug
+                      anticheatingGeolocationDetected: false
+                      plagiarismDetected: false
+      operationId: patch-integration-user-assessments-candidateAssessmentUuid-unreject
+      x-stoplight:
+        id: ysg2snafxd3sh
+      description: UnReject the candidate by the candidate’s assessment UUID. If unrejecting not rejected candidate “Bad Request 400” error is not triggered
+    parameters:
+      - schema:
+          type: string
+        name: candidateAssessmentUuid
+        in: path
+        required: true
+        description: Candidate assessment UUID
   '/integration/user-assessments/{candidateAssessmentUuid}/hire':
     parameters:
       - schema:
