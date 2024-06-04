@@ -4,16 +4,22 @@ tags: [Endpoints]
 
 # Report Notification WebHook
 
-Employer user can set reporting webhook. To this webhook Assessment Report will be sent. There are list of events that fire webhook update:
+Employer user can set reporting webhook. To this webhook an Assessment Report will be sent. There is a list of events that fire webhook updates:
 
-- CANDIDATE_FIRST_TIME_STARTED_INTERVIEW
-- CANDIDATE_COMPLETE_INTERVIEW
-- AI_SCORE
-- AI_SCORE_CHANGED
-- MANUAL_SCORE
-- MANUAL_SCORE_CHANGED
-- CANDIDATE_HIRED
-- CANDIDATE_REJECTED
+- Candidate starts an assessment
+- Candidate completes an assessment
+- The first time AI grades a candidate's response
+- AI score is updated
+- The first time candidate gets a manual team score
+- Manual team score is updated
+- Candidate is hired
+- Candidate is unhired
+- Candidate is rejected
+- Candidate is un-rejected
+- Candidate expired
+- Screening in progress
+- Candidate failed screening
+- Candidate passed screening
 
 ### Request
 
