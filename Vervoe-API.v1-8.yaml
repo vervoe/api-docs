@@ -548,7 +548,7 @@ paths:
                   description: |-
                     180 by default
 
-                    The optional reapply time frame. This is the time period, measured in days. It’s calculated from the day candidate completed the interview till the current day
+                    The optional reapply time frame. This is the time period, measured in days. It’s calculated from the day the candidate was invited to the assessment till the current day.
                 enableFeedback:
                   type: boolean
                   x-stoplight:
