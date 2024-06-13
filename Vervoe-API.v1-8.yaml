@@ -491,17 +491,17 @@ paths:
                       action: INVITED
       operationId: post-integration-assessments-slug-invite-with-reapply-timeframe
       description: |-
-        Invites the candidate to complete the assessment by assessment slug with reapply time frame. 
+        Invites or reapplies the candidate to the assessment specified by the assessment slug, depending on the given timeframe.
 
-        One of the following action will be taken on the candidate depending if candidate has already completed the assessment and how many days passed since completion compared with the given timeframe:
+        One of the following actions will be taken depending on whether the candidate has already been invited to the assessment and how many days have passed since the invitation compared to the given timeframe:
 
-        1. If candidate hasn’t been invited to this assessment → this candidate will be invited to the assessment.
+        1. If the candidate hasn’t been invited to this assessment before, then they will be invited to the assessment.
 
-        2. If candidate has been already invited to this assessment:
+        2. If the candidate has already been invited to this assessment:
 
-            a. (If candidate has already completed the assessment) AND (there were more days passed since completion, than in the given timeframe) → this candidate will be reapplied to the assessment.
+            a. If more days have passed since the invitation than specified in the given timeframe, the candidate will be reapplied to the assessment.
                
-            b. Else → candidate’s status will not change and report with results will be sent to the provided webhook.
+            b. Otherwise, the candidate’s status will not change, and the report with results will be sent to the provided webhook.
       requestBody:
         content:
           application/json:
