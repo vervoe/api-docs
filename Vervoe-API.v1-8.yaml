@@ -645,7 +645,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: xxumxp1sh1krp
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -921,7 +921,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -1267,7 +1267,7 @@ paths:
             type: string
           in: query
           name: status
-          description: '(optional) Filters by status. Null by default. One of the following: complete, expired, in_progress, hired, rejected'
+          description: '(optional) Filters by status. Null by default. One of the following: complete, expired, in_progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
       tags:
         - Candidates
     parameters: []
@@ -1357,7 +1357,7 @@ paths:
                                 id: tjeanhfc3jhjm
                               description: |-
                                 Candidate’s status.
-                                Possible values: More time Scored, Applied, Email read, Invited, Rejected, Expired, In progress, AI scored, Hired
+                                Possible values: More time Scored, Applied, Email read, Invited, Rejected, Expired, In progress, AI scored, Hired, Failed Screening, Passed Screening, Screening in progress
                             statusChangedAt:
                               type: string
                               x-stoplight:
@@ -1542,7 +1542,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -1758,7 +1758,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: dvhe03zzzkl0l
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -1937,7 +1937,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: aurj3uvzat9e7
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -2120,7 +2120,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -2280,7 +2280,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -2525,7 +2525,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
