@@ -497,11 +497,10 @@ paths:
 
         1. If the candidate hasn’t been invited to this assessment before, then they will be invited to the assessment.
 
-        2. If the candidate has already been invited to this assessment:
-
-            a. If more days have passed since the invitation than specified in the given timeframe, the candidate will be reapplied to the assessment.
+        2. If the candidate's assessment has expired, the candidate will reapply, meaning they will be able to start the assessment from scratch.
+        
+        3. If the candidate's assessment has not expired and more days have passed since the invitation than specified in the given timeframe, the candidate will reapply. If fewer days have passed, the candidate's status will remain unchanged, and the report with the results will be sent to the provided webhook.
                
-            b. Otherwise, the candidate’s status will not change, and the report with results will be sent to the provided webhook.
       requestBody:
         content:
           application/json:
