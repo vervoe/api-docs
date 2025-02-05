@@ -725,13 +725,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: p3eqfexojl40g
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: b9ci34qmptrah
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -1162,11 +1162,11 @@ paths:
                               description: URL to get the candidate info card
                             timeTaken:
                               type: string
-                              description: Time from when the assessment was started until it was submitted. `Null` if it was not submitted yet
+                              description: The sum of time the candidate spent on each question or `null` if assessment wasn't completed yet
                               nullable: true
                             submitTime:
                               type: string
-                              description: The sum of time the candidate spent on each question or `null` if assessment wasn't completed yet
+                              description: Time from when the assessment was started until it was submitted. `Null` if it was not submitted
                               nullable: true
                             tags:
                               type: array
@@ -1593,11 +1593,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         type: string
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
@@ -1699,11 +1699,11 @@ paths:
                         description: URL to get the candidate info card
                       timeTaken:
                         type: string
-                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
-                        description: 'The sum of time the candidate spent on each question or null if the assessment was not completed yet. '
+                        description: 'Time from start to submit assessment or null, if it wasn't completed yet'
                         nullable: true
               examples:
                 Example 1:
@@ -1838,13 +1838,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: aafk4yjrce1o9
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: dbdi8fm2thl7b
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -2015,13 +2015,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: g33mbdz9rksqf
-                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: t6pubhw31yi0c
-                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -2036,7 +2036,7 @@ paths:
                         type: boolean
                         x-stoplight:
                           id: lv3n1pzli35ru
-                        description: Was the last candidate invitation SMS successfully sent to candidate?
+                        description: Was the last candidate invitation SMS successfully sent to the candidate?
                       candidateEmail:
                         type: string
                         x-stoplight:
@@ -2185,11 +2185,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         type: string
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
@@ -2331,11 +2331,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if the assessment wasn’t completed yet'
                         type: string
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
@@ -2576,11 +2576,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question  or null, if the assessment wasn’t completed yet'
                         type: string
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
