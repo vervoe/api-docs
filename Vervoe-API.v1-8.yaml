@@ -491,16 +491,17 @@ paths:
                       action: INVITED
       operationId: post-integration-assessments-slug-invite-with-reapply-timeframe
       description: |-
-        Invites or reapplies the candidate to the assessment specified by the assessment slug, depending on the given timeframe.
+        Invites the candidate to complete the assessment by assessment slug with reapply time frame. 
 
-        One of the following actions will be taken depending on whether the candidate has already been invited to the assessment and how many days have passed since the invitation compared to the given timeframe:
+        One of the following action will be taken on the candidate depending if candidate has already completed the assessment and how many days passed since completion compared with the given timeframe:
 
-        1. If the candidate hasn’t been invited to this assessment before, then they will be invited to the assessment.
+        1. If candidate hasn’t been invited to this assessment → this candidate will be invited to the assessment.
 
-        2. If the candidate's assessment has expired, the candidate will reapply, meaning they will be able to start the assessment from scratch.
-        
-        3. If the candidate's assessment has not expired and more days have passed since the invitation than specified in the given timeframe, the candidate will reapply. If fewer days have passed, the candidate's status will remain unchanged, and the report with the results will be sent to the provided webhook.
+        2. If candidate has been already invited to this assessment:
+
+            a. (If candidate has already completed the assessment) AND (there were more days passed since completion, than in the given timeframe) → this candidate will be reapplied to the assessment.
                
+            b. Else → candidate’s status will not change and report with results will be sent to the provided webhook.
       requestBody:
         content:
           application/json:
@@ -547,7 +548,7 @@ paths:
                   description: |-
                     180 by default
 
-                    The optional reapply time frame. This is the time period, measured in days. It’s calculated from the day the candidate was invited to the assessment till the current day.
+                    The optional reapply time frame. This is the time period, measured in days. It’s calculated from the day candidate completed the interview till the current day
                 enableFeedback:
                   type: boolean
                   x-stoplight:
@@ -644,7 +645,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: xxumxp1sh1krp
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -725,13 +726,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: p3eqfexojl40g
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: b9ci34qmptrah
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -920,7 +921,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -973,11 +974,11 @@ paths:
                         description: URL to get the candidate info card
                       timeTaken:
                         type: string
-                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
-                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -1162,11 +1163,11 @@ paths:
                               description: URL to get the candidate info card
                             timeTaken:
                               type: string
-                              description: Time from when the assessment was started until it was submitted. `Null` if it was not submitted yet
+                              description: The sum of time the candidate spent on each question or `null` if assessment wasn't completed yet
                               nullable: true
                             submitTime:
                               type: string
-                              description: The sum of time the candidate spent on each question or `null` if assessment wasn't completed yet
+                              description: Time from when the assessment was started until it was submitted. `Null` if it was not submitted yet
                               nullable: true
                             tags:
                               type: array
@@ -1266,7 +1267,7 @@ paths:
             type: string
           in: query
           name: status
-          description: '(optional) Filters by status. Null by default. One of the following: complete, expired, in_progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+          description: '(optional) Filters by status. Null by default. One of the following: complete, expired, in_progress, hired, rejected'
       tags:
         - Candidates
     parameters: []
@@ -1356,7 +1357,7 @@ paths:
                                 id: tjeanhfc3jhjm
                               description: |-
                                 Candidate’s status.
-                                Possible values: More time Scored, Applied, Email read, Invited, Rejected, Expired, In progress, AI scored, Hired, Failed Screening, Passed Screening, Screening in progress
+                                Possible values: More time Scored, Applied, Email read, Invited, Rejected, Expired, In progress, AI scored, Hired
                             statusChangedAt:
                               type: string
                               x-stoplight:
@@ -1541,7 +1542,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -1593,11 +1594,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         type: string
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
@@ -1699,11 +1700,11 @@ paths:
                         description: URL to get the candidate info card
                       timeTaken:
                         type: string
-                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet. '
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
-                        description: 'The sum of time the candidate spent on each question or null if the assessment was not completed yet. '
+                        description: 'Time from start to submit assessment or null, if it wasn''t completed yet.'
                         nullable: true
               examples:
                 Example 1:
@@ -1757,7 +1758,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: dvhe03zzzkl0l
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -1838,13 +1839,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: aafk4yjrce1o9
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: dbdi8fm2thl7b
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -1936,7 +1937,7 @@ paths:
                         type: string
                         x-stoplight:
                           id: aurj3uvzat9e7
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         x-stoplight:
@@ -2015,13 +2016,13 @@ paths:
                         type: string
                         x-stoplight:
                           id: g33mbdz9rksqf
-                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
                         type: string
                         x-stoplight:
                           id: t6pubhw31yi0c
-                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -2119,7 +2120,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -2185,11 +2186,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
@@ -2279,7 +2280,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -2331,12 +2332,12 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
+                        description: 'The sum of time the candidate spent on each question or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
                         type: string
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         nullable: true
                       tags:
                         type: array
@@ -2524,7 +2525,7 @@ paths:
                         description: Candidate assessment UUID. Unique identifier for the candidate assessment
                       status:
                         type: string
-                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected, screeningInProgress, screeningFailed, screeningPassed'
+                        description: 'Assessment completion status. Possible values: complete, incomplete, expired, in progress, hired, rejected'
                       startedAt:
                         type: string
                         description: 'Time at which the assessment was started or null, if it wasn’t started yet'
@@ -2576,11 +2577,11 @@ paths:
                         type: string
                         description: URL to get the candidate info card
                       timeTaken:
-                        description: 'Time from start to submit assessment  or null, if it wasn’t completed yet'
                         type: string
+                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
                         nullable: true
                       submitTime:
-                        description: 'The sum of time the candidate spent on each question  or null, if assessment wasn’t completed yet'
+                        description: 'Time from start to submit assessment or null, if it wasn’t completed yet'
                         type: string
                         nullable: true
                       tags:
